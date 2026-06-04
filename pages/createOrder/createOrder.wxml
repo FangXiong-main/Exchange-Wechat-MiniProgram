@@ -1,0 +1,29 @@
+<view class="container glass-bg">
+  <!-- 商品卡片 -->
+  <view class="goods-card glass-card">
+    <view class="title">{{goods.name}}</view>
+    <view class="price">¥{{goods.price}}</view>
+    <view class="seller">卖家：{{goods.username}}</view>
+  </view>
+
+  <!-- 支付方式 -->
+  <view class="pay-section glass-card">
+    <view class="section-title">请选择支付方式</view>
+
+    <view class="pay-item {{selectedPayType === 'EXC_WALLET' ? 'active' : ''}}" bindtap="selectPayType" data-type="EXC_WALLET">
+      <view class="radio-wrap">
+        <view class="radio {{selectedPayType === 'EXC_WALLET' ? 'checked' : ''}}"></view>
+        <text class="pay-name">EXC-Wallet</text>
+      </view>
+      <view class="balance">{{balanceText}}</view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="btn-group">
+    <view class="btn cancel" bindtap="cancelBuy">取消购买</view>
+    <view class="btn confirm {{loading ? 'disabled' : ''}}" bindtap="confirmBuy">
+      {{loading ? '提交中...' : '确认购买'}}
+    </view>
+  </view>
+</view>

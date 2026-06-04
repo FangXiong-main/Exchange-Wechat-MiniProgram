@@ -1,0 +1,50 @@
+<view class="container glass-bg">
+  <!-- 搜索 + 筛选栏 -->
+  <view class="header-filter glass-float">
+    <view class="search-box glass-input">
+      <icon type="search" size="14" color="#999" class="search-icon"></icon>
+      <input placeholder="搜索帖子" class="search-input" placeholder-class="search-placeholder" bindinput="onSearchInput" value="{{searchKey}}" />
+      <view class="search-btn glass-btn" bindtap="goSearchPage">搜索</view>
+    </view>
+
+    <view class="filter-wrap glass-card" bindtap="showFilter">
+      <text class="filter-text">{{filterList[filterIndex]}}</text>
+      <icon type="down" size="12" color="#4080ff" class="filter-icon"></icon>
+    </view>
+  </view>
+
+  <!-- 帖子列表 -->
+  <view class="circle-list">
+    <view class="circle-item glass-card" wx:for="{{postList}}" wx:key="id" bindtap="goDetail" data-item="{{item}}">
+      <view class="circle-user">
+        <image class="avatar" src="{{item.avatarUrl}}"></image>
+        <view class="user-info">
+          <text class="nickname">{{item.username}}</text>
+          <text class="time">{{item.createTime}}</text>
+        </view>
+      </view>
+
+      <view class="circle-content">{{item.content}}</view>
+
+      <image wx:if="{{item.img}}" class="circle-img" src="{{item.img}}"></image>
+
+      <view class="circle-action">
+        <text>浏览：{{item.viewCount}} 次</text>
+        <text>评论：{{item.commentCount}} 条</text>
+      </view>
+    </view>
+    <!-- 无数据提示：没有加载中并且数组为空 -->
+    <view wx:if="{{postList.length === 0 && !loading}}" style="text-align:center;padding:120rpx 0;color:#999;font-size:28rpx;">暂无相关帖子喔</view>
+  </view>
+
+  <!-- 发布帖子按钮 -->
+  <view class="publish-btn" bindtap="goPublish">
+    <text class="plus">+</text>
+  </view>
+</view>
+
+<view wx:if="{{loading}}" class="loading-mask">
+  <view class="loading-box">
+    <text>加载中...</text>
+  </view>
+</view>

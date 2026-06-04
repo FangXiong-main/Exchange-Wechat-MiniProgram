@@ -1,0 +1,33 @@
+<!-- 全屏加载 -->
+<view wx:if="{{loading}}" class="loading-overlay">
+  <view class="loading-glass">
+    <view class="loading-text">{{loadText}}</view>
+  </view>
+</view>
+
+<view class="container glass-bg">
+  <!-- 标题 -->
+  <view class="title-box">
+    <text class="main-title">设置学校</text>
+    <text class="sub-title">请选择你所在的学校</text>
+  </view>
+
+  <!-- 提示语 -->
+  <view class="tip-card glass-card">
+    <text class="tip-text">⚠️ 所在学校 30 天内仅允许修改一次，请谨慎选择</text>
+  </view>
+
+  <!-- 下拉选择框 -->
+  <view class="form-box glass-card">
+    <view class="input-item picker-item" bindtap="showSchoolPicker">
+      <text class="picker-placeholder {{selectedSchoolName ? 'active' : ''}}">
+        {{selectedSchoolName || '请选择学校'}}
+      </text>
+    </view>
+  </view>
+
+  <!-- 保存按钮 -->
+  <view class="save-btn glass-btn" bindtap="saveSchool" disabled="{{loading || !selectedSchoolId}}">
+    <text>保存学校</text>
+  </view>
+</view>

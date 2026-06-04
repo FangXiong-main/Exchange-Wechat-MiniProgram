@@ -1,0 +1,66 @@
+<!-- 全屏液态玻璃登录加载遮罩 -->
+<view wx:if="{{loginLoading}}" class="loading-overlay">
+  <view class="loading-glass">
+    <view class="loading-text">登录中...</view>
+  </view>
+</view>
+
+<view class="container glass-bg">
+  <!-- 标题 -->
+  <view class="title-box">
+    <text class="main-title">Exchange！登录</text>
+    <text class="sub-title">请选择登录方式</text>
+  </view>
+
+  <!-- 登录方式切换 带动画 -->
+  <view class="tab-box glass-card">
+    <view class="tab-item {{type==='password'?'active':''}}" bindtap="switchType" data-type="password">
+      <text>密码登录</text>
+    </view>
+    <view class="tab-item {{type==='code'?'active':''}}" bindtap="switchType" data-type="code">
+      <text>验证码登录</text>
+    </view>
+  </view>
+
+  <!-- 密码登录表单 -->
+  <view wx:if="{{type==='password'}}" class="form-box glass-card form-animate">
+    <view class="input-item">
+      <input placeholder="请输入邮箱" bindinput="inputEmail" value="{{email}}" />
+    </view>
+    <view class="input-item">
+      <input placeholder="请输入密码" password bindinput="inputPwd" value="{{pwd}}" />
+    </view>
+  </view>
+
+  <!-- 验证码登录表单 -->
+  <view wx:if="{{type==='code'}}" class="form-box glass-card form-animate">
+    <view class="input-item">
+      <input placeholder="请输入邮箱" bindinput="inputEmail" value="{{email}}" />
+    </view>
+    <view class="input-item code-item">
+      <input placeholder="请输入验证码" bindinput="inputCode" value="{{code}}" />
+      <view 
+        class="code-btn glass-btn" 
+        bindtap="sendCode"
+        disabled="{{!canSend || loading}}"
+      >
+        <text wx:if="{{!loading}}">{{codeText}}</text>
+        <text wx:else>发送中...</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 登录按钮 -->
+  <view class="login-btn glass-btn" bindtap="login" disabled="{{loginLoading}}">
+    <text>登录</text>
+  </view>
+
+  <!-- 底部提示 & 使用须知 -->
+  <view class="tip-wrap">
+    <text class="register-tip">未注册的用户选择验证码登录即可自动注册～</text>
+    <view class="agree-tip">
+      <text>登录即代表您同意</text>
+      <text class="rule-text" bindtap="goRule">《使用须知》</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,240 @@
+/* 全屏加载 */
+.loading-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+  }
+  .loading-glass {
+    padding: 50rpx 80rpx;
+    border-radius: 20rpx;
+    background: rgba(255,255,255,0.25);
+    border: 1rpx solid rgba(255,255,255,0.3);
+  }
+  .loading-text {
+    font-size: 32rpx;
+    color: #2d8cf0;
+  }
+  
+  page {
+    background: #f5fafe;
+  }
+  .glass-bg {
+    background: linear-gradient(135deg, #e6f7ff 0%, #f0f9ff 100%);
+    min-height: 100vh;
+    padding: 20rpx;
+  }
+  .glass-card {
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(25px);
+    border-radius: 20rpx;
+    margin-bottom: 24rpx;
+    overflow: hidden;
+  }
+  
+  /* 卖家信息 */
+  .user-card {
+    display: flex;
+    align-items: center;
+    padding: 24rpx 30rpx;
+  }
+  .avatar {
+    width: 70rpx;
+    height: 70rpx;
+    border-radius: 50%;
+    margin-right: 20rpx;
+  }
+  .nickname {
+    font-size: 30rpx;
+    color: #333;
+  }
+  .time {
+    font-size: 24rpx;
+    color: #999;
+    margin-top: 6rpx;
+  }
+  
+  /* 图片 */
+  .img-wrap {
+    padding: 10rpx;
+  }
+  .detail-img {
+    width: 100%;
+    height: 700rpx;
+    border-radius: 16rpx;
+  }
+  
+  /* 信息 */
+  .info-wrap {
+    padding: 30rpx;
+  }
+  .price {
+    font-size: 42rpx;
+    color: #fa5555;
+    font-weight: bold;
+  }
+  .title {
+    font-size: 34rpx;
+    color: #333;
+    margin: 10rpx 0 20rpx;
+  }
+  
+  .tag-group {
+    display: flex;
+    gap: 16rpx;
+  }
+  .tag {
+    padding: 8rpx 16rpx;
+    border-radius: 30rpx;
+    font-size: 24rpx;
+  }
+  .sale-tag.on {
+    background: rgba(0, 200, 140, 0.1);
+    color: #00c48c;
+  }
+  .sale-tag.off {
+    background: rgba(250,80,80,0.1);
+    color: #fa5555;
+  }
+  .audit-tag {
+    background: rgba(45,140,240,0.1);
+    color: #2d8cf0;
+  }
+  
+  /* 驳回原因样式 */
+  .reject-wrap {
+    padding: 30rpx;
+    background: rgba(250, 85, 85, 0.08);
+    border: 1rpx solid rgba(250, 85, 85, 0.2);
+  }
+  .reject-title {
+    font-size: 30rpx;
+    color: #fa5555;
+    font-weight: bold;
+    margin-bottom: 16rpx;
+  }
+  .reject-content {
+    font-size: 28rpx;
+    color: #666;
+    line-height: 1.8;
+  }
+
+  /* 详情 */
+  .desc-wrap {
+    padding: 30rpx;
+  }
+  .desc-title {
+    font-size: 30rpx;
+    margin-bottom: 16rpx;
+    color: #333;
+  }
+  .desc-content {
+    font-size: 28rpx;
+    color: #666;
+    line-height: 1.8;
+  }
+  
+  .placeholder {
+    height: 120rpx;
+  }
+  
+  /* 底部操作栏 */
+  .footer-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100rpx;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 30rpx;
+    box-sizing: border-box;
+    gap: 15rpx;
+  }
+  .collect-btn {
+    width: 160rpx;
+    height: 70rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1rpx solid #2d8cf0;
+    border-radius: 35rpx;
+    color: #2d8cf0;
+    font-size: 26rpx;
+    gap: 6rpx;
+  }
+  .buy-btn {
+    flex: 1;
+    height: 70rpx;
+    background: linear-gradient(90deg, #2d8cf0, #48a2f8);
+    color: #fff;
+    text-align: center;
+    line-height: 70rpx;
+    border-radius: 35rpx;
+    font-size: 28rpx;
+  }
+  
+  /* 自己商品 - 编辑按钮 */
+  .edit-info-btn {
+    width: 150rpx;
+    height: 70rpx;
+    border: 1rpx solid #2d8cf0;
+    border-radius: 35rpx;
+    color: #2d8cf0;
+    text-align: center;
+    line-height: 70rpx;
+    font-size: 26rpx;
+    background: #fff;
+  }
+  /* 上下架按钮 */
+  .status-btn {
+    flex: 1;
+    height: 70rpx;
+    color: #fff;
+    text-align: center;
+    line-height: 70rpx;
+    border-radius: 35rpx;
+    font-size: 28rpx;
+  }
+  .status-btn.online {
+    background: linear-gradient(90deg, #00c48c, #20e2a0);
+  }
+  .status-btn.offline {
+    background: linear-gradient(90deg, #fa5555, #ff7777);
+  }
+
+  /* 驳回提醒按钮 */
+  .reject-tip-btn {
+    flex: 1;
+    height: 70rpx;
+    background: rgba(250,85,85,0.15);
+    color: #fa5555;
+    text-align: center;
+    line-height: 70rpx;
+    border-radius: 35rpx;
+    font-size: 26rpx;
+    font-weight: bold;
+  }
+
+  /* 删除按钮 */
+  .del-btn {
+    width: 150rpx;
+    height: 70rpx;
+    background: #fff;
+    color: #fa5555;
+    border: 1rpx solid #fa5555;
+    text-align: center;
+    line-height: 70rpx;
+    border-radius: 35rpx;
+    font-size: 26rpx;
+  }
+  .collect-btn.disabled {
+    background: #ccc !important;
+    border-color: #ccc !important;
+    color: #fff !important;
+    pointer-events: none;
+  }

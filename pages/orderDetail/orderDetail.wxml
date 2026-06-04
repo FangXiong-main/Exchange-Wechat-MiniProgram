@@ -1,0 +1,49 @@
+<view wx:if="{{loading}}" class="loading-overlay">
+  <view class="loading-glass">
+    <view class="loading-text">加载中...</view>
+  </view>
+</view>
+
+<view class="container glass-bg">
+  <view class="status-card glass-card">
+    <view class="status-title">{{statusText}}</view>
+    <view class="status-desc">{{statusDesc}}</view>
+  </view>
+
+  <view class="goods-card glass-card" bindtap="goGoodsDetail">
+    <image class="goods-img" src="{{goodsImage}}"></image>
+    <view class="goods-info">
+      <view class="goods-name">{{goodsName}}</view>
+      <view class="goods-price">¥{{goodsPrice || '获取价格失败'}}</view>
+    </view>
+  </view>
+
+  <view class="info-card glass-card">
+    <view class="row"><text>订单号</text><text class="text-over">{{id}}</text></view>
+    <view class="row"><text>卖家</text><text class="text-over">{{sellerName}}</text></view>
+    <view class="row"><text>支付方式</text><text>{{payType === 1 ? 'EXC-Wallet' : '未知'}}</text></view>
+    <view class="row"><text>创建时间</text><text>{{createTime}}</text></view>
+    <view class="row" wx:if="{{payTime}}"><text>支付时间</text><text>{{payTime}}</text></view>
+    <view class="row" wx:if="{{finishTime}}"><text>完成时间</text><text>{{finishTime}}</text></view>
+  </view>
+
+  <view class="desc-card glass-card">
+    <view class="title">商品描述</view>
+    <view class="content">{{goodsDetail || '暂无描述'}}</view>
+  </view>
+
+  <view class="placeholder"></view>
+</view>
+
+<view class="footer-bar glass-card" wx:if="{{showOperate}}">
+  <view class="btn-box">
+    <!-- 状态 1、2 显示操作按钮 -->
+    <view wx:if="{{status === 1 || status === 2}}" class="btn-row">
+      <button class="btn orange" bindtap="cancelOrder">取消订单</button>
+      <button class="btn green" bindtap="confirmOrder">我已确认面交</button>
+    </view>
+
+    <!-- 已取消 / 已完成 显示删除 -->
+    <button wx:elif="{{status === 3 || status === 4}}" class="btn gray" bindtap="deleteOrder">删除订单</button>
+  </view>
+</view>

@@ -1,0 +1,52 @@
+<view class="container glass-bg">
+  <view class="publish-title">发布帖子</view>
+
+  <!-- 优化后的帖子类型下拉 -->
+  <view class="type-card glass-card" bindtap="openTypeSelect">
+    <text class="type-label">帖子类型</text>
+    <view class="type-select-box">
+      <text class="sel-text">{{typeList[typeIndex]}}</text>
+      <text class="down-arrow">▼</text>
+    </view>
+  </view>
+  <!-- 弹出下拉选项面板 -->
+  <view wx:if="{{showTypePanel}}" class="type-mask" bindtap="closeTypeSelect">
+    <view class="type-panel glass-card" catchtap="">
+      <view wx:for="{{typeList}}" wx:key="index" class="type-item {{index===typeIndex?'active':''}}" bindtap="selectType" data-index="{{index}}">
+        {{item}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 内容输入 -->
+  <view class="publish-card glass-card">
+    <textarea
+      class="content-text"
+      placeholder="分享你的想法..."
+      value="{{content}}"
+      bindinput="onInput"
+      maxlength="200"
+      auto-height
+    />
+    <view class="word-count">{{content.length}}/200</view>
+  </view>
+
+  <!-- 图片上传 -->
+  <view class="img-card glass-card">
+    <text class="img-title">上传图片（最多1张）</text>
+    <view class="img-wrap">
+      <view wx:if="{{imgUrl}}" class="img-item">
+        <image src="{{imgUrl}}" mode="aspectFill"></image>
+        <view class="del-img" bindtap="deleteImg">×</view>
+      </view>
+      <view wx:if="{{!imgUrl}}" class="upload-btn" bindtap="chooseImage">
+        <text class="add-icon">+</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 发布按钮 -->
+  <view class="publish-btn {{!canPublish ? 'disabled' : ''}}" bindtap="publish">
+    发布帖子
+  </view>
+</view>

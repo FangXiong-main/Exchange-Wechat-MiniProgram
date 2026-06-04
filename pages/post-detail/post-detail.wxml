@@ -1,0 +1,51 @@
+<view class="container glass-bg">
+  <!-- 帖子内容 -->
+  <view class="detail-card glass-card">
+    <view class="circle-user">
+      <image class="avatar" src="{{post.avatarUrl}}"></image>
+      <view class="user-info">
+        <text class="nickname">{{post.username}}</text>
+        <text class="time">{{post.createTime}}</text>
+      </view>
+    </view>
+
+    <view class="circle-content">{{post.content}}</view>
+    <image wx:if="{{post.images}}" class="circle-img" src="{{post.images}}"></image>
+
+    <view wx:if="{{isOwner}}" class="delete-wrapper">
+      <view class="del-btn" bindtap="deletePost">删除帖子</view>
+    </view>
+  </view>
+
+  <!-- 评论标题 → 固定不动 -->
+  <view class="comment-title">全部评论</view>
+
+  <!-- 评论滚动区域 -->
+  <scroll-view class="comment-scroll" scroll-y bindscrolltolower="onReachBottom">
+    <view class="comment-item glass-card" wx:for="{{commentList}}" wx:key="id">
+      <image class="avatar" src="{{item.avatarUrl}}"></image>
+      <view class="comment-right">
+        <view class="comment-top">
+          <text class="name">{{item.username}}</text>
+          <text class="time">{{item.createTime}}</text>
+        </view>
+        <text class="content">{{item.content}}</text>
+      </view>
+    </view>
+
+    <view wx:if="{{commentList.length === 0 && !fullLoading}}" class="empty">暂无评论～</view>
+    <view wx:if="{{loading}}" class="load-tip">加载中...</view>
+  </scroll-view>
+
+  <!-- 底部输入框 → 玻璃效果 + 固定底部 -->
+  <view class="action-bar">
+    <view class="input-wrapper glass-input">
+      <input placeholder="写点友善的评论吧…" value="{{content}}" bindinput="onInput" />
+      <view class="send-btn {{!content ? 'disabled' : ''}}" bindtap="sendComment">发送</view>
+    </view>
+  </view>
+
+  <view wx:if="{{fullLoading}}" class="full-loading">
+    <view class="loading-box">加载中...</view>
+  </view>
+</view>

@@ -1,0 +1,38 @@
+<!-- 全屏液态玻璃加载遮罩 → 和登录页完全一样 -->
+<view wx:if="{{loading}}" class="loading-overlay">
+  <view class="loading-glass">
+    <view class="loading-text">加载中...</view>
+  </view>
+</view>
+
+<view class="container glass-bg">
+  <view class="list-box" wx:if="{{orderList.length > 0}}">
+    <view class="list-item glass-card" wx:for="{{orderList}}" wx:key="id" data-id="{{item.id}}" bindtap="goOrderDetail">
+      <image class="item-img" src="{{item.images}}" mode="aspectFill"></image>
+      <view class="item-info">
+        <text class="item-name">{{item.goodsName}}</text>
+        <text class="item-price">¥{{item.price}}</text>
+        
+        <view class="status-row">
+          <view class="tag {{item.orderType === 'buy' ? 'buy' : 'sell'}}">
+            {{item.orderType === 'buy' ? '我买到的' : '我卖出的'}}
+          </view>
+          <view class="status-text-view">
+            <view class="dot {{item.status===1?'blue':item.status===2?'orange':item.status===3?'gray':'green'}}"></view>
+            <text class="status-txt">{{item.status===1?'等待双方面交':item.status===2?'卖家已确认面交':item.status===3?'已取消':'已完成'}}</text>
+          </view>
+        </view>
+
+        <text class="date">创建时间 {{item.createTime}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-box" wx:else>
+    <view class="empty-card glass-card">
+      <text class="empty-text">暂无订单</text>
+    </view>
+  </view>
+
+  <view class="load-tip" wx:if="{{!hasMore && orderList.length > 0}}">没有更多订单了</view>
+</view>

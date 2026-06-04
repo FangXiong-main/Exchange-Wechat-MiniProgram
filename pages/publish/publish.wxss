@@ -1,0 +1,149 @@
+/* 全屏液态加载 */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  
+  .loading-glass {
+    padding: 50rpx 80rpx;
+    border-radius: 20rpx;
+    background: rgba(255,255,255,0.25);
+    border: 1px solid rgba(255,255,255,0.3);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+  }
+  
+  .loading-text {
+    font-size: 32rpx;
+    color: #2d8cf0;
+    font-weight: bold;
+  }
+  
+  /* 原有通用样式 */
+  .glass-bg {
+    background: linear-gradient(135deg, #e6f7ff 0%, #f0f9ff 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    min-height: 100vh;
+    padding: 30rpx;
+    box-sizing: border-box;
+  }
+  
+  .glass-card {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(100, 120, 200, 0.1);
+    border-radius: 20rpx;
+  }
+  
+  .glass-input {
+    background: rgba(255, 255, 255, 0.7) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    border-radius: 12rpx !important;
+  }
+  
+  .glass-btn {
+    background: rgba(102, 175, 239, 0.35);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 24px rgba(100, 120, 200, 0.15);
+  }
+  
+  .container {
+    padding: 30rpx;
+    box-sizing: border-box;
+  }
+  
+  .img-upload-box {
+    width: 100%;
+    height: 400rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30rpx;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .upload-img {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .upload-tip {
+    position: absolute;
+    font-size: 28rpx;
+    color: #999;
+  }
+  
+  .form-list {
+    margin-bottom: 40rpx;
+  }
+  
+  .form-item {
+    padding: 30rpx;
+    margin-bottom: 20rpx;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  .desc-wrap {
+    align-items: flex-start;
+  }
+  
+  .form-label {
+    width: 140rpx;
+    font-size: 28rpx;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  .form-input {
+    flex: 1;
+    font-size: 28rpx;
+    color: #333;
+    padding: 12rpx 16rpx;
+    border-radius: 12rpx;
+  }
+  
+  .desc-input {
+    flex: 1;
+    min-height: 120rpx;
+    font-size: 28rpx;
+    color: #333;
+    padding: 16rpx;
+    border-radius: 12rpx;
+    line-height: 1.5;
+  }
+  
+  .submit-btn {
+    width: 100%;
+    height: 88rpx;
+    border-radius: 44rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20rpx;
+  }
+  
+  .btn-text {
+    font-size: 32rpx;
+    color: #2d8cf0;
+    font-weight: bold;
+  }

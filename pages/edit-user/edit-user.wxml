@@ -1,0 +1,52 @@
+<!-- 全屏液态加载 -->
+<view wx:if="{{loading}}" class="loading-overlay">
+  <view class="loading-glass">
+    <view class="loading-text">{{loadText}}</view>
+  </view>
+</view>
+
+<view class="container glass-bg">
+  <!-- 标题 -->
+  <view class="page-title">编辑个人资料</view>
+
+  <!-- 重要提示 -->
+  <view class="warn-card glass-card">
+    <text class="warn-text">⚠️ 请使用合理的昵称和头像，修改后需审核</text>
+    <text class="warn-text">⚠️ 审核不通过会保留之前信息，不影响使用</text>
+  </view>
+
+  <!-- 表单卡片 -->
+  <view class="card glass-card">
+    <!-- 头像 -->
+    <view class="item" bindtap="chooseAvatar">
+      <text class="label">头像</text>
+      <view class="avatar-row">
+        <image class="avatar" src="{{avatarUrl}}"></image>
+        <text class="tip">点击更换</text>
+      </view>
+    </view>
+
+    <!-- 昵称 -->
+    <view class="item">
+      <text class="label">昵称</text>
+      <input 
+        class="input" 
+        placeholder="请输入昵称" 
+        value="{{username}}" 
+        bindinput="setNick"
+        maxlength="10"
+      />
+    </view>
+
+    <!-- 所在学校 → 改为下拉选择 -->
+    <view class="item" bindtap="showSchoolPicker">
+      <text class="label">所在学校</text>
+      <text class="input picker-text">{{selectedSchoolName || '请选择学校'}}</text>
+    </view>
+  </view>
+
+  <!-- 保存按钮 -->
+  <view class="save-btn glass-btn" bindtap="save" disabled="{{loading}}">
+    <text class="save-text">保存修改</text>
+  </view>
+</view>

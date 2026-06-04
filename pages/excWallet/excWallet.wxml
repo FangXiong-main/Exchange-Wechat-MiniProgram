@@ -1,0 +1,41 @@
+<view class="container glass-bg">
+  <!-- 顶部标题 -->
+  <view class="wallet-title">EXC-Wallet 钱包</view>
+
+  <!-- 余额卡片区域 -->
+  <view class="balance-card glass-card">
+    <view class="balance-label">余额</view>
+    <view class="balance-num">¥{{balanceText}}</view>
+  </view>
+
+  <!-- 明细模块 -->
+  <view class="detail-wrap">
+    <view class="detail-title">余额明细</view>
+
+    <view class="list-box">
+      <!-- 空数据：非加载且列表为空 -->
+      <view wx:if="{{!detailLoading && detailList.length === 0}}" class="empty-box">
+        <view class="empty-card glass-card">
+          <text class="empty-text">暂无消费记录</text>
+        </view>
+      </view>
+
+      <!-- 明细列表项 -->
+      <view class="detail-item glass-card" wx:for="{{detailList}}" wx:key="index">
+        <view class="detail-left">
+          <text class="type-text">{{typeMap[item.type]}}</text>
+          <text class="time-text">{{item.createTime}}</text>
+        </view>
+        <view class="detail-right">
+          <text class="price-text {{item.type === 1 || item.type ===5 ? 'gray' : 'blue'}}">
+            {{item.type === 1 || item.type ===5 ? '-' : '+'}}¥{{item.price}}
+          </text>
+        </view>
+      </view>
+
+      <!-- 明细上拉加载提示 -->
+      <view wx:if="{{detailLoading}}" class="loading-row">加载中...</view>
+      <view wx:if="{{!hasMore && detailList.length > 0 && !detailLoading}}" class="load-tip">没有更多记录了</view>
+    </view>
+  </view>
+</view>

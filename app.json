@@ -1,0 +1,55 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/publish/publish",
+        "pages/social/social",
+        "pages/my/my",
+        "pages/my-publish/my-publish",
+        "pages/order/order",
+        "pages/edit-user/edit-user",
+        "pages/login/login",
+        "pages/rule/rule",
+        "pages/favorite/favorite",
+        "pages/goodsDetail/goodsDetail",
+        "pages/orderDetail/orderDetail",
+        "pages/goodsEdit/goodsEdit",
+        "pages/publishPost/publishPost",
+        "pages/post-detail/post-detail",
+        "pages/school/school",
+        "pages/createOrder/createOrder",
+        "pages/excWallet/excWallet"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#4080ff",
+        "navigationBarTitleText": "Exchange！",
+        "navigationBarTextStyle": "white",
+        "backgroundColor": "#f5f5f5"
+    },
+    "tabBar": {
+        "color": "#999",
+        "selectedColor": "#4080ff",
+        "backgroundColor": "#ffffff",
+        "borderStyle": "white",
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "text": "首页"
+            },
+            {
+                "pagePath": "pages/publish/publish",
+                "text": "发布"
+            },
+            {
+                "pagePath": "pages/social/social",
+                "text": "社区"
+            },
+            {
+                "pagePath": "pages/my/my",
+                "text": "我的"
+            }
+        ]
+    },
+    "style": "v2",
+    "sitemapLocation": "sitemap.json"
+}

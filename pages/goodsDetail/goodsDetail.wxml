@@ -1,0 +1,83 @@
+<!-- 全屏加载 -->
+<view wx:if="{{loading}}" class="loading-overlay">
+  <view class="loading-glass">
+    <view class="loading-text">加载中...</view>
+  </view>
+</view>
+
+<view class="container glass-bg">
+  <!-- 卖家信息 -->
+  <view class="user-card glass-card">
+    <image class="avatar" src="{{avatarUrl}}"></image>
+    <view class="user-info">
+      <view class="nickname">{{username}}</view>
+      <view class="time">发布于 {{createTime}}</view>
+    </view>
+  </view>
+
+  <!-- 图片轮播（没有图片则不显示） -->
+  <view class="img-wrap glass-card" wx:if="{{imgList.length > 0}}">
+    <swiper indicator-dots circular autoplay wx:if="{{imgList.length > 1}}">
+      <swiper-item wx:for="{{imgList}}" wx:key="index">
+        <image class="detail-img" src="{{item}}" mode="aspectFill"></image>
+      </swiper-item>
+    </swiper>
+    <image class="detail-img" src="{{imgList[0]}}" mode="aspectFill" wx:else></image>
+  </view>
+
+  <!-- 价格 + 标题 + 状态标签 -->
+  <view class="info-wrap glass-card">
+    <view class="price">¥{{price}}</view>
+    <view class="title">{{name}}</view>
+    <view class="tag-group">
+      <block wx:if="{{auditStatus === 0}}">
+        <view class="tag audit-tag">待审核</view>
+      </block>
+      <block wx:elif="{{auditStatus === 1}}">
+        <view class="tag sale-tag {{saleStatus === 1 ? 'on' : 'off'}}">
+          {{saleStatus === 1 ? '在售' : '已下架'}}
+        </view>
+      </block>
+      <block wx:else>
+        <view class="tag audit-tag">审核驳回</view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 驳回原因 -->
+  <view class="reject-wrap glass-card" wx:if="{{auditStatus === 2}}">
+    <view class="reject-title">❌ 审核驳回原因</view>
+    <view class="reject-content">{{rejectReason || '未填写驳回原因'}}</view>
+  </view>
+
+  <!-- 商品描述 -->
+  <view class="desc-wrap glass-card">
+    <view class="desc-title">商品描述</view>
+    <view class="desc-content">{{detailInfo || '暂无商品描述'}}</view>
+  </view>
+
+  <view class="placeholder"></view>
+</view>
+
+<!-- 底部操作栏 -->
+<view class="footer-bar glass-card">
+  <block wx:if="{{isMyGoods}}">
+    <view class="edit-info-btn" bindtap="editGoods">编辑商品</view>
+    <block wx:if="{{auditStatus === 2}}">
+      <view class="reject-tip-btn">请根据原因重新编辑</view>
+    </block>
+    <block wx:else>
+      <view class="status-btn {{saleStatus === 1 ? 'offline' : 'online'}}" bindtap="changeSaleStatus">
+        {{saleStatus === 1 ? '下架商品' : '上架商品'}}
+      </view>
+    </block>
+    <view class="del-btn" bindtap="deleteGoods">删除商品</view>
+  </block>
+  <block wx:else>
+    <!-- 收藏按钮（无爱心）-->
+    <view class="collect-btn {{collectLoading ? 'disabled' : ''}}" bindtap="toggleCollect">
+      <text>{{isLiked ? '取消收藏' : '收藏'}}</text>
+    </view>
+    <view class="buy-btn" bindtap="buyGoods">立即购买</view>
+  </block>
+</view>

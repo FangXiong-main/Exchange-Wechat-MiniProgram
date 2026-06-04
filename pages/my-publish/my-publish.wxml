@@ -1,0 +1,48 @@
+<!-- 全屏液态玻璃加载遮罩（统一风格） -->
+<view wx:if="{{loading}}" class="loading-overlay">
+  <view class="loading-glass">
+    <view class="loading-text">加载中...</view>
+  </view>
+</view>
+
+<view class="container glass-bg">
+  <view class="list-box" wx:if="{{goodsList.length > 0}}">
+    <view class="list-item glass-card" wx:for="{{goodsList}}" wx:key="id" data-id="{{item.id}}" bindtap="goDetail">
+      <image class="item-img" src="{{item.images.split(',')[0]}}" mode="aspectFill"></image>
+      <view class="item-info">
+        <text class="item-name">{{item.name}}</text>
+        <text class="item-price">¥{{item.price}}</text>
+        
+        <view class="status-wrap">
+          <!-- 待审核：红点点 + 待审核 -->
+          <block wx:if="{{item.auditStatus === 0}}">
+            <view class="dot red"></view>
+            <text class="status-text">待审核</text>
+          </block>
+
+          <!-- 审核通过：看上下架 -->
+          <block wx:elif="{{item.auditStatus === 1}}">
+            <view class="dot {{item.saleStatus === 1 ? 'green' : 'red'}}"></view>
+            <text class="status-text">{{item.saleStatus === 1 ? '在售' : '已下架'}}</text>
+          </block>
+
+          <!-- 审核拒绝 -->
+          <block wx:else>
+            <view class="dot red"></view>
+            <text class="status-text">审核拒绝</text>
+          </block>
+        </view>
+        
+        <text class="date">发布于 {{item.createTime}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-box" wx:else>
+    <view class="empty-card glass-card">
+      <text class="empty-text">暂无发布的商品</text>
+    </view>
+  </view>
+
+  <view class="load-tip" wx:if="{{!hasMore && goodsList.length > 0}}">没有更多了</view>
+</view>

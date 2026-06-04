@@ -1,0 +1,65 @@
+<!-- 全屏加载 -->
+<view wx:if="{{loading}}" class="loading-overlay">
+  <view class="loading-glass">
+    <view class="loading-text">正在获取信息...</view>
+  </view>
+</view>
+
+<view class="container glass-bg">
+  <!-- 用户信息卡片 -->
+  <view class="user-card glass-card">
+    <image class="avatar" src="{{userInfo.avatarUrl || '/static/default-avatar.png'}}"></image>
+    <view class="user-info">
+      <text class="nickname">{{userInfo.username || '未登录'}}</text>
+      <text class="school-text">{{schoolName || '未设置学校'}}</text>
+    </view>
+    <view class="edit-btn glass-btn" bindtap="goEditUser">编辑</view>
+  </view>
+
+  <!-- 审核中提示 -->
+  <view class="audit-tip" wx:if="{{auditStatus === 0 && changedStatus === 1}}">
+    <text>⚠️ 修改的个人信息审核中，请耐心等待</text>
+  </view>
+
+  <!-- 菜单 -->
+  <view class="menu-box">
+    <view class="menu-item glass-card" bindtap="goMyPublish">
+      <view class="menu-left-wrap">
+        <view class="menu-icon">📦</view>
+        <text class="menu-text">我发布的商品</text>
+      </view>
+      <text class="arrow">></text>
+    </view>
+
+    <view class="menu-item glass-card" bindtap="goMyOrder">
+      <view class="menu-left-wrap">
+        <view class="menu-icon">🧾</view>
+        <text class="menu-text">我的订单</text>
+        <text wx:if="{{unresolvedCount > 0}}" class="order-tip">待处理：{{unresolvedCount}}</text>
+      </view>
+      <text class="arrow">></text>
+    </view>
+
+    <view class="menu-item glass-card" bindtap="goMyFavorite">
+      <view class="menu-left-wrap">
+        <view class="menu-icon">❤️</view>
+        <text class="menu-text">我的收藏</text>
+      </view>
+      <text class="arrow">></text>
+    </view>
+
+    <!-- 新增 EXC-Wallet -->
+    <view class="menu-item glass-card" bindtap="goExcWallet">
+      <view class="menu-left-wrap">
+        <view class="menu-icon">💰</view>
+        <text class="menu-text">EXC-Wallet</text>
+      </view>
+      <text class="arrow">></text>
+    </view>
+  </view>
+
+  <!-- 退出登录 -->
+  <view class="logout-box">
+    <view class="logout-btn glass-btn" bindtap="logout">退出登录</view>
+  </view>
+</view>

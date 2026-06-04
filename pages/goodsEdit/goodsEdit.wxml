@@ -1,0 +1,60 @@
+<!-- 加载遮罩 -->
+<view wx:if="{{loading}}" class="loading-overlay">
+  <view class="loading-glass">
+    <view class="loading-text">加载中...</view>
+  </view>
+</view>
+
+<view class="container glass-bg">
+  <!-- 标题卡片 -->
+  <view class="status-card glass-card">
+    <view class="status-title">编辑商品</view>
+    <view class="status-desc">修改商品信息并保存</view>
+  </view>
+
+  <!-- 商品图片 → 智能显示：有图显示+更换，无图只显示添加 -->
+  <view class="form-card glass-card">
+    <view class="form-label">商品图片</view>
+    <view wx:if="{{images}}" class="img-section">
+      <image class="show-img" src="{{images}}" mode="aspectFill"></image>
+      <button class="btn blue" bindtap="chooseImage">更换图片</button>
+    </view>
+    <button wx:else class="btn blue" bindtap="chooseImage">添加图片</button>
+  </view>
+
+  <!-- 商品名称 -->
+  <view class="form-card glass-card">
+    <view class="form-label">商品名称</view>
+    <input class="form-input" value="{{name}}" bindinput="inputName" placeholder="请输入商品名称" />
+  </view>
+
+  <!-- 商品价格 -->
+  <view class="form-card glass-card">
+    <view class="form-label">商品价格</view>
+    <input class="form-input" value="{{price}}" bindinput="inputPrice" placeholder="请输入商品价格" type="digit" />
+  </view>
+
+  <!-- 商品类型下拉框 -->
+  <view class="form-card glass-card">
+    <view class="form-label">商品类型</view>
+    <picker value="{{typeIndex}}" range="{{typeList}}" bindchange="changeType">
+      <view class="picker-input">{{typeList[typeIndex]}}</view>
+    </picker>
+  </view>
+
+  <!-- 商品描述 -->
+  <view class="form-card glass-card">
+    <view class="form-label">商品描述</view>
+    <textarea class="form-textarea" value="{{detailInfo}}" bindinput="inputDesc" placeholder="请输入商品描述"></textarea>
+  </view>
+
+  <view class="placeholder"></view>
+</view>
+
+<!-- 底部操作按钮 -->
+<view class="footer-bar glass-card">
+  <view class="btn-row">
+    <button class="btn gray" bindtap="goBack">取消</button>
+    <button class="btn blue" bindtap="saveGoods">保存修改</button>
+  </view>
+</view>

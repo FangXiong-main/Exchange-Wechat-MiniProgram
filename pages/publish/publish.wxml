@@ -1,0 +1,51 @@
+<!-- 全屏液态玻璃加载 -->
+<view wx:if="{{loading}}" class="loading-overlay">
+  <view class="loading-glass">
+    <view class="loading-text">发布中...</view>
+  </view>
+</view>
+
+<view class="container glass-bg">
+  <!-- 商品图片上传 -->
+  <view class="img-upload-box glass-card" bindtap="chooseImage">
+    <image class="upload-img" src="{{goodsImg || '/images/upload-placeholder.png'}}" mode="aspectFill"></image>
+    <view class="upload-tip" wx:if="{{!goodsImg}}">点击上传商品图片</view>
+  </view>
+
+  <!-- 表单区域 -->
+  <view class="form-list">
+    <view class="form-item glass-card">
+      <text class="form-label">商品名称</text>
+      <input type="text" placeholder="输入商品名称" class="form-input glass-input" value="{{goodsName}}" bindinput="onNameInput" />
+    </view>
+
+    <!-- 价格输入栏 -->
+    <view class="form-item glass-card">
+      <text class="form-label">价格</text>
+      <view style="display:flex; align-items:center; flex:1;">
+        <text style="font-size:28rpx; margin-right:10rpx; color:#333;">¥</text>
+        <input type="number" placeholder="0.00" class="form-input glass-input" value="{{price}}" bindinput="onPriceInput" />
+      </view>
+    </view>
+
+    <!-- 商品类型 -->
+    <view class="form-item glass-card">
+      <text class="form-label">商品类型</text>
+      <picker value="{{typeIndex}}" range="{{typeList}}" bindchange="onTypeChange">
+        <view class="form-input glass-input" style="color:#333;">
+          {{typeList[typeIndex]}}
+        </view>
+      </picker>
+    </view>
+
+    <view class="form-item desc-wrap glass-card">
+      <text class="form-label">描述</text>
+      <textarea placeholder="请填写商品详细描述" class="desc-input glass-input" value="{{desc}}" bindinput="onDescInput" maxlength="500"></textarea>
+    </view>
+  </view>
+
+  <!-- 发布按钮 -->
+  <view class="submit-btn glass-btn" bindtap="submitGoods">
+    <text class="btn-text">发布</text>
+  </view>
+</view>

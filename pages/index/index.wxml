@@ -1,0 +1,100 @@
+<view class="container glass-bg">
+  <!-- 顶部固定：搜索框 + 搜索按钮 -->
+  <view class="header-search glass-float">
+    <view class="search-wrapper glass-input">
+      <icon type="search" size="28" color="#999" class="search-icon"></icon>
+      <input placeholder="搜索商品" class="search-input" bindconfirm="doSearch" bindinput="onSearchInput" value="{{searchKey}}"/>
+      <view class="search-btn glass-btn" bindtap="doSearch">搜索</view>
+    </view>
+  </view>
+
+  <!-- 轮播图：固定3张 -->
+  <swiper class="banner-swiper" indicator-dots="{{true}}" autoplay="{{true}}" interval="3000" duration="500">
+    <swiper-item>
+      <view class="banner-item">
+        <view class="banner-content glass-card">
+          <image class="banner-img" src="https://picsum.photos/id/1/800/320"></image>
+        </view>
+      </view>
+    </swiper-item>
+    <swiper-item>
+      <view class="banner-item">
+        <view class="banner-content glass-card">
+          <image class="banner-img" src="https://picsum.photos/id/10/800/320"></image>
+        </view>
+      </view>
+    </swiper-item>
+    <swiper-item>
+      <view class="banner-item">
+        <view class="banner-content glass-card">
+          <image class="banner-img" src="https://picsum.photos/id/100/800/320"></image>
+        </view>
+      </view>
+    </swiper-item>
+  </swiper>
+
+  <!-- 5个商品分类：书籍 数码 服饰 电器 其他 -->
+  <view class="category-list">
+    <view class="category-item" bindtap="goType" data-type="1">
+      <view class="category-icon bg-blue glass-icon">
+        <image src="https://picsum.photos/id/1/80/80"></image>
+      </view>
+      <text class="category-name">书籍</text>
+    </view>
+    <view class="category-item" bindtap="goType" data-type="2">
+      <view class="category-icon bg-orange glass-icon">
+        <image src="https://picsum.photos/id/10/80/80"></image>
+      </view>
+      <text class="category-name">数码</text>
+    </view>
+    <view class="category-item" bindtap="goType" data-type="3">
+      <view class="category-icon bg-lightblue glass-icon">
+        <image src="https://picsum.photos/id/100/80/80"></image>
+      </view>
+      <text class="category-name">服饰</text>
+    </view>
+    <view class="category-item" bindtap="goType" data-type="4">
+      <view class="category-icon bg-yellow glass-icon">
+        <image src="https://picsum.photos/id/1000/80/80"></image>
+      </view>
+      <text class="category-name">电器</text>
+    </view>
+    <view class="category-item" bindtap="goType" data-type="5">
+      <view class="category-icon bg-purple glass-icon">
+        <image src="https://picsum.photos/id/1001/80/80"></image>
+      </view>
+      <text class="category-name">其他</text>
+    </view>
+  </view>
+
+  <!-- 最新商品 -->
+  <view class="goods-title">
+    <text class="title-text">今日上架商品</text>
+  </view>
+
+  <!-- 加载中 -->
+  <view wx:if="{{loading && goodsList.length === 0}}" style="text-align:center;padding:60rpx 0;color:#999;font-size:28rpx;">
+  加载中...
+  </view>
+
+  <!-- 商品列表 自适应：一行2个 / 小屏一行1个 -->
+  <view class="goods-list" wx:else>
+    <view class="goods-item glass-card" wx:for="{{goodsList}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+      <image class="goods-img" src="{{item.images || 'https://picsum.photos/id/10/400/400'}}"></image>
+      <view class="goods-name">{{item.name}}</view>
+      <view class="goods-price">¥{{item.price}}</view>
+      <view class="goods-footer">
+        <view class="user-info">
+          <image class="avatar" src="{{item.avatarUrl || 'https://picsum.photos/id/100/100/100'}}"></image>
+          <text class="username">{{item.username}}</text>
+        </view>
+        <text class="time">{{item.timeStr}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:if="{{goodsList.length === 0 && !loading}}" style="text-align:center;padding:120rpx 0;color:#999;font-size:28rpx;">
+  今日暂无上架商品喔
+  </view>
+</view>

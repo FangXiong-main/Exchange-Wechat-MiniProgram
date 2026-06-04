@@ -1,0 +1,28 @@
+<view class="container glass-bg">
+  <!-- 头部标题 -->
+  <view class="header glass-card">
+    <text class="title">Exchange！校园二手交易平台</text>
+    <text class="sub-desc">以下简称 Exchange</text>
+  </view>
+
+  <!-- 条款内容 -->
+  <view class="content glass-card">
+    <view class="article">
+      <text class="p">1. 本平台 Exchange 仅作为线上娱乐、功能测试类软件使用，所有交易相关功能均采用虚拟货币完成模拟交易，不存在真实货币交易行为，不涉及现实资金往来。</text>
+      <text class="p">2. 平台内虚拟货币、商品信息、交易记录等内容均为测试数据，仅用于产品功能演示与体验，不具备实际商业效力。</text>
+      <text class="p">3. 本软件为个人开发测试项目，开发者不对用户在平台内产生的任何行为、数据、纠纷承担相应法律责任，请各位用户知悉。</text>
+      <text class="p">4. 所有使用本平台的用户，必须严格遵守国家法律法规及网络相关管理规定，严禁发布违法、违规、色情、暴力、侵权、造谣等不良信息，严禁利用本平台从事任何非法活动。</text>
+      <text class="p">5. 用户在使用过程中，请自觉维护网络环境与平台秩序，文明交流、理性体验，若因用户个人违规行为引发一切后果，均由行为人自行承担。</text>
+      <text class="p">6. 平台会尽力保障基础功能正常运行，但不承诺软件永久无故障、不间断服务，因系统维护、功能迭代、服务器调整等造成的短暂无法访问，敬请谅解。</text>
+      <text class="p">7. 未经开发者允许，任何个人或团体不得私自篡改、二次分发、逆向工程、盗用本软件代码、界面、文案及相关资源。</text>
+
+      <text class="p">本软件著作权归 FangXiong 所有。</text>
+      <text class="p">联系方式：1255404327@qq.com</text>
+    </view>
+  </view>
+
+  <!-- 底部落款 -->
+  <view class="footer">
+    <text>Exchange！运营团队</text>
+  </view>
+</view>
