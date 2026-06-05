@@ -1,4 +1,5 @@
 import { getMyPublishApi } from '../../api/user.js'
+import request from '../../utils/request.js' // 👈 加上
 
 Page({
   data: {
@@ -48,12 +49,27 @@ Page({
       const { total, rows } = res.data
       let newList = rows || []
 
-      // 格式化时间 + 图片处理
+      // ======================
+      // ✅ 统一拼接图片地址
+      // ======================
       newList = newList.map(item => {
-        if (!item.images) item.images = ""
         if (item.createTime) {
           item.createTime = this.formatTime(item.createTime)
         }
+
+        // 图片拼接完整URL
+        if (item.images) {
+          let img = item.images.split(',')[0]
+          // 拼接，防止重复拼接
+          if (img && !img.startsWith('http')) {
+            item.mainImg = request.baseURL + img
+          } else {
+            item.mainImg = img
+          }
+        } else {
+          item.mainImg = ""
+        }
+
         return item
       })
 
@@ -72,7 +88,6 @@ Page({
     }
   },
 
-  // 时间格式化
   formatTime(timeStr) {
     if (!timeStr) return ""
     const date = new Date(timeStr)

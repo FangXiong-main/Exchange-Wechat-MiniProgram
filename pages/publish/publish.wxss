@@ -1,4 +1,4 @@
-/* 全屏液态加载 */
+/* 上传loading */
 .loading-overlay {
     position: fixed;
     top: 0;
@@ -29,7 +29,7 @@
     font-weight: bold;
   }
   
-  /* 原有通用样式 */
+  /* 背景 */
   .glass-bg {
     background: linear-gradient(135deg, #e6f7ff 0%, #f0f9ff 100%);
     backdrop-filter: blur(20px);
@@ -69,7 +69,8 @@
     box-sizing: border-box;
   }
   
-  .img-upload-box {
+  /* 图片区域 */
+  .img-section {
     width: 100%;
     height: 400rpx;
     display: flex;
@@ -80,17 +81,37 @@
     overflow: hidden;
   }
   
-  .upload-img {
+  .upload-btn {
+    background: #2d8cf0;
+    color: #fff;
+    border-radius: 12rpx;
+    padding: 20rpx 40rpx;
+    font-size: 28rpx;
+  }
+  
+  .img-preview-box {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  
+  .preview-img {
     width: 100%;
     height: 100%;
   }
   
-  .upload-tip {
+  .change-btn {
     position: absolute;
-    font-size: 28rpx;
-    color: #999;
+    bottom: 20rpx;
+    right: 20rpx;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    font-size: 24rpx;
+    padding: 10rpx 20rpx;
+    border-radius: 8rpx;
   }
   
+  /* 表单 */
   .form-list {
     margin-bottom: 40rpx;
   }

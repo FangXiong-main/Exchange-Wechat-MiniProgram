@@ -5,6 +5,7 @@ import {
   } from '../../api/user.js'
   import { getSchoolListApi } from '../../api/user.js'
   import { getUnresolvedOrdersCountApi } from '../../api/order.js'
+  import request from '../../utils/request.js' // 👈 加上
   
   Page({
     data: {
@@ -17,9 +18,21 @@ import {
     },
   
     onShow() {
+      let user = wx.getStorageSync('userInfo') || {}
+      
+      // ======================
+      // ✅ 头像拼接（核心修改）
+      // ======================
+      if (user.avatarUrl) {
+        if (!user.avatarUrl.startsWith('http')) {
+          user.avatarUrl = request.baseURL + user.avatarUrl
+        }
+      }
+  
       this.setData({
-        userInfo: wx.getStorageSync('userInfo') || {}
+        userInfo: user
       })
+  
       this.loadSchoolData()
       this.checkInfoStatus()
       this.getUnresolvedOrdersCount()
@@ -124,8 +137,16 @@ import {
               try {
                 const userRes = await getUserInfoApi()
                 if (userRes.code === 200) {
-                  wx.setStorageSync('userInfo', userRes.data)
-                  this.setData({ userInfo: userRes.data })
+                  let newUser = userRes.data
+                  // ======================
+                  // ✅ 这里也拼接头像
+                  // ======================
+                  if (newUser.avatarUrl && !newUser.avatarUrl.startsWith('http')) {
+                    newUser.avatarUrl = request.baseURL + newUser.avatarUrl
+                  }
+  
+                  wx.setStorageSync('userInfo', newUser)
+                  this.setData({ userInfo: newUser })
                   this.loadSchoolData()
                 }
               } finally {
@@ -148,7 +169,6 @@ import {
     goMyPublish() { wx.navigateTo({ url: '/pages/my-publish/my-publish' }) },
     goMyOrder() { wx.navigateTo({ url: '/pages/order/order' }) },
     goMyFavorite() { wx.navigateTo({ url: '/pages/favorite/favorite' }) },
-    // 🔥 新增钱包跳转
     goExcWallet() { wx.navigateTo({ url: '/pages/excWallet/excWallet' }) },
   
     logout() {

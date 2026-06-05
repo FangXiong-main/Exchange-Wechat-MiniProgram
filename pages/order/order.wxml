@@ -8,7 +8,7 @@
 <view class="container glass-bg">
   <view class="list-box" wx:if="{{orderList.length > 0}}">
     <view class="list-item glass-card" wx:for="{{orderList}}" wx:key="id" data-id="{{item.id}}" bindtap="goOrderDetail">
-      <image class="item-img" src="{{item.images}}" mode="aspectFill"></image>
+      <image class="item-img" src="{{item.goodsImg}}" mode="aspectFill"></image>
       <view class="item-info">
         <text class="item-name">{{item.goodsName}}</text>
         <text class="item-price">¥{{item.price}}</text>

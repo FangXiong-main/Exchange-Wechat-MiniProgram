@@ -1,4 +1,5 @@
 import { getOrderDetailApi, cancelOrderApi, confirmOrderApi, deleteOrderApi } from '../../api/order.js'
+import request from '../../utils/request.js' // 👈 加上
 
 Page({
   data: {
@@ -78,6 +79,15 @@ Page({
       if (order.payTime) order.payTime = this.formatTime(order.payTime)
       if (order.finishTime) order.finishTime = this.formatTime(order.finishTime)
 
+      // ======================
+      // ✅ 商品图片统一拼接（核心修改）
+      // ======================
+      if (order.goodsImage) {
+        if (!order.goodsImage.startsWith('http')) {
+          order.goodsImage = request.baseURL + order.goodsImage
+        }
+      }
+
       this.setData({
         ...order,
         goodsPrice: String(order.goodsPrice),
@@ -95,7 +105,6 @@ Page({
     }
   },
 
-  // 取消订单
   async cancelOrder() {
     wx.showModal({
       title: '确认取消',
@@ -113,7 +122,6 @@ Page({
     })
   },
 
-  // 确认面交
   async confirmOrder() {
     wx.showModal({
       title: '确认面交',
@@ -131,7 +139,6 @@ Page({
     })
   },
 
-  // 删除订单
   async deleteOrder() {
     wx.showModal({
       title: '确认删除',

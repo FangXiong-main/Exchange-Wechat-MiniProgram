@@ -1,4 +1,5 @@
 import { getGoodsDetailApi, toggleFavoriteApi, deleteGoodsApi, changeSaleStatusApi } from '../../api/goods.js'
+import request from '../../utils/request.js' // 👈 加上
 
 Page({
   data: {
@@ -13,10 +14,10 @@ Page({
     username: '',
     avatarUrl: '',
     createTime: '',
-    isLiked: 0, // 0未收藏 1已收藏
+    isLiked: 0,
     imgList: [],
     loading: false,
-    collectLoading: false, // 收藏防重复点击
+    collectLoading: false,
     isMyGoods: false
   },
 
@@ -37,8 +38,24 @@ Page({
       }
 
       const g = res.data
-      const imgList = g.images ? g.images.split(',') : []
       const loginUserId = wx.getStorageSync('userInfo')?.id || null
+
+      // ======================
+      // ✅ 图片统一拼接（核心）
+      // ======================
+      let imgList = g.images ? g.images.split(',') : []
+      imgList = imgList.map(img => {
+        if (img && !img.startsWith('http')) {
+          return request.baseURL + img
+        }
+        return img
+      })
+
+      // 头像也拼接
+      let avatar = g.avatarUrl || ''
+      if (avatar && !avatar.startsWith('http')) {
+        avatar = request.baseURL + avatar
+      }
 
       this.setData({
         name: g.name,
@@ -49,10 +66,10 @@ Page({
         auditStatus: g.auditStatus,
         rejectReason: g.rejectReason,
         username: g.username,
-        avatarUrl: g.avatarUrl,
+        avatarUrl: avatar, // 👈 已拼接
         createTime: this.formatTime(g.createTime),
         isLiked: g.isLiked || 0,
-        imgList: imgList,
+        imgList: imgList, // 👈 已全部拼接
         isMyGoods: loginUserId == g.userId,
       })
     } catch (err) {
@@ -62,14 +79,11 @@ Page({
     }
   },
 
-  // 收藏 / 取消收藏
   async toggleCollect() {
     const { isLiked, collectLoading } = this.data
     if (collectLoading) return
-    // isLiked=1：取消收藏 type=0；isLiked=0：收藏 type=1
     const reqType = isLiked === 1 ? 0 : 1
 
-    // 取消收藏：弹窗确认
     if (reqType === 0) {
       wx.showModal({
         title: '确认取消',
@@ -81,17 +95,13 @@ Page({
       })
       return
     }
-    // 收藏直接请求
     await this.doCollectRequest(reqType)
   },
 
-  // 执行收藏请求，传入type
   async doCollectRequest(type) {
     this.setData({ collectLoading: true })
     try {
-      // 传参：商品id + type(1收藏/0取消)
       const res = await toggleFavoriteApi({ id: this.data.id, type })
-
       if (res.code === 200) {
         const newIsLiked = type === 1 ? 1 : 0
         const tip = newIsLiked === 1 ? '收藏成功' : '取消收藏成功'
@@ -112,8 +122,7 @@ Page({
       wx.showToast({ title: '商品已下架', icon: 'none' })
       return
     }
-  
-    // 把当前商品所有信息带到确认订单页
+
     const goods = {
       id: this.data.id,
       name: this.data.name,
@@ -121,7 +130,7 @@ Page({
       avatarUrl: this.data.avatarUrl,
       username: this.data.username
     }
-  
+
     wx.navigateTo({
       url: '/pages/createOrder/createOrder?goods=' + encodeURIComponent(JSON.stringify(goods))
     })

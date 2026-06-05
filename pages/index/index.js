@@ -1,4 +1,5 @@
 import { getNewGoodsPage } from '../../api/goods.js'
+import request from '../../utils/request.js' // 👈 加上
 
 Page({
   data: {
@@ -8,10 +9,9 @@ Page({
     pageNum: 1,
     pageSize: 10,
     noMore: false,
-    isFirstLoaded: false // 只控制首次进入
+    isFirstLoaded: false
   },
 
-  // 🔥 只在第一次进入时刷新，后退不刷新
   onShow() {
     if (!this.data.isFirstLoaded) {
       this.setData({ isFirstLoaded: true })
@@ -19,7 +19,6 @@ Page({
     }
   },
 
-  // 下拉刷新
   refreshData() {
     this.setData({
       pageNum: 1,
@@ -38,7 +37,6 @@ Page({
     this.refreshData()
   },
 
-  // 获取商品（支持追加模式）
   async getGoodsList(isRefresh = false) {
     const { pageNum, pageSize, goodsList } = this.data
 
@@ -51,13 +49,26 @@ Page({
       if (res && res.code === 200 && res.data) {
         let newList = res.data.rows || []
 
-        // 格式化时间
+        // ======================
+        // ✅ 统一拼接图片（核心修改）
+        // ======================
         newList = newList.map(item => {
           item.timeStr = this.formatTime(item.createTime)
+          
+          // 拼接主图
+          if (item.images) {
+            let img = item.images.split(',')[0]
+            if (img && !img.startsWith('http')) {
+              item.mainImg = request.baseURL + img
+            } else {
+              item.mainImg = img
+            }
+          } else {
+            item.mainImg = ''
+          }
           return item
         })
 
-        // 🔥 下拉刷新 = 清空重加载；上拉加载 = 追加
         const finalList = isRefresh ? newList : [...goodsList, ...newList]
 
         this.setData({
@@ -81,7 +92,6 @@ Page({
     return `${h}:${m}`
   },
 
-  // 🔥 上拉加载更多 → 完全正常
   onReachBottom() {
     const { loading, noMore, pageNum } = this.data
     if (loading || noMore) return

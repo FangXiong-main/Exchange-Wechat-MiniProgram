@@ -1,5 +1,7 @@
 import { updateUserInfoApi } from '../../api/user.js'
 import { getSchoolListApi } from '../../api/user.js'
+import { uploadFile } from '../../api/upload.js' 
+import request from '../../utils/request.js' // 预览才用
 
 Page({
   data: {
@@ -17,30 +19,24 @@ Page({
   onLoad() {
     let user = wx.getStorageSync('userInfo') || {}
     this.setData({
-      avatarUrl: user.avatarUrl || "/images/default-avatar.png",
+      avatarUrl: user.avatarUrl ? request.baseURL + user.avatarUrl : "/images/default-avatar.png",
       username: user.username || "",
       selectedSchoolId: user.school || ''
     })
     this.loadSchoolData()
   },
 
-  // 加载学校列表（和设置页完全一样）
   async loadSchoolData() {
     try {
       let schoolMap = wx.getStorageSync('schoolName')
-
       if (!schoolMap) {
-        this.setData({
-          loading: true,
-          loadText: '正在获取学校信息...'
-        })
+        this.setData({ loading: true, loadText: '正在获取学校信息...' })
         const res = await getSchoolListApi()
         if (res.code === 200) {
           schoolMap = res.data
           wx.setStorageSync('schoolName', schoolMap)
         }
       }
-
       if (!schoolMap) return
 
       const schoolArray = Object.entries(schoolMap).map(([id, item]) => {
@@ -49,13 +45,9 @@ Page({
 
       this.setData({ schoolMap, schoolArray })
 
-      // 回显当前学校
-      const { selectedSchoolId } = this.data
-      if (selectedSchoolId) {
-        const school = schoolArray.find(s => s.id == selectedSchoolId)
-        if (school) {
-          this.setData({ selectedSchoolName: school.name })
-        }
+      if (this.data.selectedSchoolId) {
+        const school = schoolArray.find(s => s.id == this.data.selectedSchoolId)
+        if (school) this.setData({ selectedSchoolName: school.name })
       }
 
     } catch (err) {
@@ -65,7 +57,6 @@ Page({
     }
   },
 
-  // 选择学校
   showSchoolPicker() {
     const { schoolArray } = this.data
     if (schoolArray.length === 0) {
@@ -85,21 +76,51 @@ Page({
     })
   },
 
-  // 更换头像
-  chooseAvatar() {
+  // ======================================
+  // ✅ 上传头像：只存路径，不拼接！
+  // ======================================
+  async chooseAvatar() {
     wx.chooseImage({
       count: 1,
-      success: (res) => {
-        this.setData({ avatarUrl: res.tempFilePaths[0] })
+      sizeType: ['compressed'],
+      success: async (res) => {
+        const tempPath = res.tempFilePaths[0]
+        this.setData({ loading: true, loadText: '头像上传中...' })
+
+        try {
+          const uploadRes = await uploadFile(tempPath)
+          if (uploadRes.code === 200) {
+            // ✅ 只存路径：/ExchangeUploads/xxx.jpg
+            const imgPath = uploadRes.data
+
+            this.setData({
+              avatarUrl: request.baseURL + imgPath, // 👈 仅页面显示用
+              avatarUploadPath: imgPath,            // 👈 专门存上传后的路径
+              loading: false
+            })
+            wx.showToast({ title: '上传成功', icon: 'success' })
+          } else {
+            wx.showToast({ title: uploadRes.msg || '上传失败', icon: 'none' })
+            this.setData({ loading: false })
+          }
+        } catch (err) {
+          console.error(err)
+          wx.showToast({ title: '上传异常', icon: 'none' })
+          this.setData({ loading: false })
+        }
       }
     })
   },
 
-  setNick(e) { this.setData({ username: e.detail.value }) },
+  setNick(e) {
+    this.setData({ username: e.detail.value })
+  },
 
-  // 保存
+  // ==============================
+  // ✅ 保存：只传路径！不传完整URL！
+  // ==============================
   async save() {
-    const { avatarUrl, username, selectedSchoolId, loading } = this.data
+    const { avatarUploadPath, username, selectedSchoolId, loading } = this.data
     if (loading) return
 
     if (!username.trim()) {
@@ -111,12 +132,11 @@ Page({
       return
     }
 
-    this.setData({ loading: true })
+    this.setData({ loading: true, loadText: '保存中...' })
 
     try {
       const params = {
-        avatarUrl: avatarUrl,
-        // ✅ 这里改成 changedUsername（只改了这一行！）
+        avatarUrl: avatarUploadPath || '', // ✅ 只传路径！
         changedUsername: username,
         school: selectedSchoolId
       }

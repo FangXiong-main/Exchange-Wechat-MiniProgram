@@ -80,7 +80,7 @@
   <!-- 商品列表 自适应：一行2个 / 小屏一行1个 -->
   <view class="goods-list" wx:else>
     <view class="goods-item glass-card" wx:for="{{goodsList}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
-      <image class="goods-img" src="{{item.images || 'https://picsum.photos/id/10/400/400'}}"></image>
+      <image class="goods-img" src="{{item.mainImg || 'https://picsum.photos/id/10/400/400'}}"></image>
       <view class="goods-name">{{item.name}}</view>
       <view class="goods-price">¥{{item.price}}</view>
       <view class="goods-footer">

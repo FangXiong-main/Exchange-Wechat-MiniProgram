@@ -1,4 +1,5 @@
 import { getMyOrderApi } from '../../api/order.js'
+import request from '../../utils/request.js' // 👈 加上
 
 Page({
   data: {
@@ -42,6 +43,21 @@ Page({
       newList = newList.map(item => {
         item.createTime = this.formatTime(item.createTime)
         item.orderType = item.buyerId == loginUserId ? "buy" : "sell"
+
+        // ======================
+        // ✅ 订单商品图片统一拼接（核心修改）
+        // ======================
+        if (item.images) {
+          let img = item.images.split(',')[0]
+          if (img && !img.startsWith('http')) {
+            item.goodsImg = request.baseURL + img
+          } else {
+            item.goodsImg = img
+          }
+        } else {
+          item.goodsImg = ''
+        }
+
         return item
       })
 
@@ -73,7 +89,7 @@ Page({
     const date = new Date(timeStr)
     const y = date.getFullYear()
     const m = String(date.getMonth() + 1).padStart(2, '0')
-    const d = String(date.getDate()).padStart(2, '0')
+    const d = String(date.getDate()).padStart(0, '0')
     const h = String(date.getHours()).padStart(2, '0')
     const min = String(date.getMinutes()).padStart(2, '0')
     const sec = String(date.getSeconds()).padStart(2, '0')

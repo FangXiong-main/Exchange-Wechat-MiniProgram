@@ -1,3 +1,4 @@
+
 const baseURL = "http://10.90.215.160:8080";
 
 const request = (config) => {
@@ -13,7 +14,6 @@ const request = (config) => {
         "Content-Type": "application/json"
       },
       success: (res) => {
-        // 403 账号封禁 → 模态弹窗提示
         if (res.statusCode === 403) {
           wx.clearStorageSync();
           wx.showModal({
@@ -31,7 +31,6 @@ const request = (config) => {
           return;
         }
 
-        // 401 登录已过期
         if (res.statusCode === 401) {
           wx.clearStorageSync();
           wx.showToast({
@@ -56,7 +55,8 @@ const request = (config) => {
 
 const RequestApi = {
   get: (url, data) => request({ method: "GET", url, data }),
-  post: (url, data) => request({ method: "POST", url, data })
+  post: (url, data) => request({ method: "POST", url, data }),
+  baseURL: baseURL
 };
 
 export default RequestApi;
