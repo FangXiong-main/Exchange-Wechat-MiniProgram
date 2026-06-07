@@ -5,7 +5,16 @@
   </view>
 </view>
 
-<view class="container glass-bg">
+<!-- 商品已被删除 → 显示这个 -->
+<view wx:if="{{isDeleted}}" class="deleted-tip">
+  <view class="deleted-box glass-card">
+    <text class="icon">⚠️</text>
+    <text class="text">该商品已经被删除啦～</text>
+  </view>
+</view>
+
+<!-- 正常显示商品详情 -->
+<view wx:else class="container glass-bg">
   <!-- 卖家信息 -->
   <view class="user-card glass-card">
     <image class="avatar" src="{{avatarUrl}}"></image>
@@ -15,15 +24,14 @@
     </view>
   </view>
 
-  <!-- 图片轮播（没有图片则不显示） -->
   <view class="img-wrap glass-card" wx:if="{{imgList.length > 0}}">
-    <swiper indicator-dots circular autoplay wx:if="{{imgList.length > 1}}">
-      <swiper-item wx:for="{{imgList}}" wx:key="index">
-        <image class="detail-img" src="{{item}}" mode="aspectFill"></image>
-      </swiper-item>
-    </swiper>
-    <image class="detail-img" src="{{imgList[0]}}" mode="aspectFill" wx:else></image>
-  </view>
+  <swiper indicator-dots circular autoplay wx:if="{{imgList.length > 1}}">
+    <swiper-item wx:for="{{imgList}}" wx:key="index" bindtap="previewImage" data-index="{{index}}">
+      <image class="detail-img" src="{{item}}" mode="aspectFill"></image>
+    </swiper-item>
+  </swiper>
+  <image class="detail-img" src="{{imgList[0]}}" mode="aspectFill" wx:else bindtap="previewImage" data-index="0"></image>
+</view>
 
   <!-- 价格 + 标题 + 状态标签 -->
   <view class="info-wrap glass-card">
@@ -59,25 +67,24 @@
   <view class="placeholder"></view>
 </view>
 
-<!-- 底部操作栏 -->
-<view class="footer-bar glass-card">
+<!-- 底部操作栏：只有未删除才显示 -->
+<view wx:if="{{!isDeleted}}" class="footer-bar glass-float">
   <block wx:if="{{isMyGoods}}">
-    <view class="edit-info-btn" bindtap="editGoods">编辑商品</view>
+    <view class="edit-info-btn glass-btn" bindtap="editGoods">编辑商品</view>
     <block wx:if="{{auditStatus === 2}}">
-      <view class="reject-tip-btn">请根据原因重新编辑</view>
+      <view class="reject-tip-btn glass-btn">请根据原因重新编辑</view>
     </block>
     <block wx:else>
-      <view class="status-btn {{saleStatus === 1 ? 'offline' : 'online'}}" bindtap="changeSaleStatus">
+      <view class="status-btn {{saleStatus === 1 ? 'offline' : 'online'}} glass-btn" bindtap="changeSaleStatus">
         {{saleStatus === 1 ? '下架商品' : '上架商品'}}
       </view>
     </block>
-    <view class="del-btn" bindtap="deleteGoods">删除商品</view>
+    <view class="del-btn glass-btn" bindtap="deleteGoods">删除商品</view>
   </block>
   <block wx:else>
-    <!-- 收藏按钮（无爱心）-->
-    <view class="collect-btn {{collectLoading ? 'disabled' : ''}}" bindtap="toggleCollect">
+    <view class="collect-btn glass-btn {{collectLoading ? 'disabled' : ''}}" bindtap="toggleCollect">
       <text>{{isLiked ? '取消收藏' : '收藏'}}</text>
     </view>
-    <view class="buy-btn" bindtap="buyGoods">立即购买</view>
+    <view class="buy-btn glass-btn" bindtap="buyGoods">立即购买</view>
   </block>
 </view>

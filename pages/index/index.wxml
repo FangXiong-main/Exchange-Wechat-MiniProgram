@@ -13,55 +13,56 @@
     <swiper-item>
       <view class="banner-item">
         <view class="banner-content glass-card">
-          <image class="banner-img" src="https://picsum.photos/id/1/800/320"></image>
+          <!-- 🔥 轮播图加 mode -->
+          <image class="banner-img" src="https://picsum.photos/id/1/800/320" mode="aspectFill"></image>
         </view>
       </view>
     </swiper-item>
     <swiper-item>
       <view class="banner-item">
         <view class="banner-content glass-card">
-          <image class="banner-img" src="https://picsum.photos/id/10/800/320"></image>
+          <image class="banner-img" src="https://picsum.photos/id/10/800/320" mode="aspectFill"></image>
         </view>
       </view>
     </swiper-item>
     <swiper-item>
       <view class="banner-item">
         <view class="banner-content glass-card">
-          <image class="banner-img" src="https://picsum.photos/id/100/800/320"></image>
+          <image class="banner-img" src="https://picsum.photos/id/100/800/320" mode="aspectFill"></image>
         </view>
       </view>
     </swiper-item>
   </swiper>
 
-  <!-- 5个商品分类：书籍 数码 服饰 电器 其他 -->
+  <!-- 5个商品分类：书籍 数码 服饰 电器 其他 → 完全不动！ -->
   <view class="category-list">
     <view class="category-item" bindtap="goType" data-type="1">
       <view class="category-icon bg-blue glass-icon">
-        <image src="https://picsum.photos/id/1/80/80"></image>
+        <image src="/images/home-select/book.svg"></image>
       </view>
       <text class="category-name">书籍</text>
     </view>
     <view class="category-item" bindtap="goType" data-type="2">
       <view class="category-icon bg-orange glass-icon">
-        <image src="https://picsum.photos/id/10/80/80"></image>
+        <image src="/images/home-select/digit.svg"></image>
       </view>
       <text class="category-name">数码</text>
     </view>
     <view class="category-item" bindtap="goType" data-type="3">
       <view class="category-icon bg-lightblue glass-icon">
-        <image src="https://picsum.photos/id/100/80/80"></image>
+        <image src="/images/home-select/clothes.svg"></image>
       </view>
       <text class="category-name">服饰</text>
     </view>
     <view class="category-item" bindtap="goType" data-type="4">
       <view class="category-icon bg-yellow glass-icon">
-        <image src="https://picsum.photos/id/1000/80/80"></image>
+        <image src="/images/home-select/digit.svg"></image>
       </view>
       <text class="category-name">电器</text>
     </view>
     <view class="category-item" bindtap="goType" data-type="5">
       <view class="category-icon bg-purple glass-icon">
-        <image src="https://picsum.photos/id/1001/80/80"></image>
+        <image src="/images/home-select/others.svg"></image>
       </view>
       <text class="category-name">其他</text>
     </view>
@@ -77,15 +78,17 @@
   加载中...
   </view>
 
-  <!-- 商品列表 自适应：一行2个 / 小屏一行1个 -->
+  <!-- 商品列表 -->
   <view class="goods-list" wx:else>
     <view class="goods-item glass-card" wx:for="{{goodsList}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
-      <image class="goods-img" src="{{item.mainImg || 'https://picsum.photos/id/10/400/400'}}"></image>
+      <!-- 🔥 商品图片加 mode -->
+      <image class="goods-img" src="{{item.mainImg || 'https://picsum.photos/id/10/400/400'}}" mode="aspectFill"></image>
       <view class="goods-name">{{item.name}}</view>
       <view class="goods-price">¥{{item.price}}</view>
       <view class="goods-footer">
         <view class="user-info">
-          <image class="avatar" src="{{item.avatarUrl || 'https://picsum.photos/id/100/100/100'}}"></image>
+          <!-- 🔥 头像加 mode -->
+          <image class="avatar" src="{{item.avatarUrl || 'https://picsum.photos/id/100/100/100'}}" mode="aspectFill"></image>
           <text class="username">{{item.username}}</text>
         </view>
         <text class="time">{{item.timeStr}}</text>

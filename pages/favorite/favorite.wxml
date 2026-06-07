@@ -8,7 +8,7 @@
 
   <view class="list-box" wx:if="{{favoriteList.length > 0}}">
     <view class="list-item glass-card" wx:for="{{favoriteList}}" wx:key="id" data-id="{{item.id}}" bindtap="goDetail">
-      <image class="item-img" src="{{item.images.split(',')[0]}}" mode="aspectFill"></image>
+      <image class="item-img" src="{{item.mainImg}}" mode="aspectFill"></image>
       <view class="item-info">
         <text class="item-name">{{item.name}}</text>
         <text class="item-price">¥{{item.price}}</text>

@@ -1,5 +1,11 @@
-/* 全屏加载 */
-.loading-overlay {
+/* 全局页面背景：浅蓝色 */
+page {
+    background: linear-gradient(135deg, #e6f7ff 0%, #f0f9ff 100%);
+    background-attachment: fixed;
+  }
+  
+  /* 加载 */
+  .loading-overlay {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
@@ -11,28 +17,52 @@
   .loading-glass {
     padding: 50rpx 80rpx;
     border-radius: 20rpx;
-    background: rgba(255,255,255,0.25);
-    border: 1rpx solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.4);
+    border: 1rpx solid rgba(255,255,255,0.5);
+    backdrop-filter: blur(20px);
   }
   .loading-text {
     font-size: 32rpx;
     color: #2d8cf0;
   }
   
-  page {
-    background: #f5fafe;
-  }
-  .glass-bg {
-    background: linear-gradient(135deg, #e6f7ff 0%, #f0f9ff 100%);
-    min-height: 100vh;
+  /* 容器 */
+  .container {
     padding: 20rpx;
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+  
+  /* ========== 液态玻璃统一样式 ========== */
+  .glass-bg {
+    background: transparent !important;
   }
   .glass-card {
-    background: rgba(255,255,255,0.55);
-    backdrop-filter: blur(25px);
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1rpx solid rgba(255,255,255,0.5);
     border-radius: 20rpx;
     margin-bottom: 24rpx;
     overflow: hidden;
+  }
+  .glass-float {
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1rpx solid rgba(255,255,255,0.5);
+  }
+  
+  /* 按钮统一玻璃效果 */
+  .glass-btn {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1rpx solid rgba(255,255,255,0.5);
+    transition: all 0.2s ease;
+  }
+  .glass-btn:active {
+    background: rgba(255,255,255,0.6);
   }
   
   /* 卖家信息 */
@@ -53,7 +83,7 @@
   }
   .time {
     font-size: 24rpx;
-    color: #999;
+    color: #666;
     margin-top: 6rpx;
   }
   
@@ -90,25 +120,24 @@
     padding: 8rpx 16rpx;
     border-radius: 30rpx;
     font-size: 24rpx;
+    background: rgba(255,255,255,0.4);
+    backdrop-filter: blur(10px);
   }
   .sale-tag.on {
-    background: rgba(0, 200, 140, 0.1);
     color: #00c48c;
   }
   .sale-tag.off {
-    background: rgba(250,80,80,0.1);
     color: #fa5555;
   }
   .audit-tag {
-    background: rgba(45,140,240,0.1);
     color: #2d8cf0;
   }
   
-  /* 驳回原因样式 */
+  /* 驳回 */
   .reject-wrap {
     padding: 30rpx;
-    background: rgba(250, 85, 85, 0.08);
-    border: 1rpx solid rgba(250, 85, 85, 0.2);
+    background: rgba(250, 85, 85, 0.1);
+    border: 1rpx solid rgba(250, 85, 85, 0.25);
   }
   .reject-title {
     font-size: 30rpx;
@@ -121,8 +150,8 @@
     color: #666;
     line-height: 1.8;
   }
-
-  /* 详情 */
+  
+  /* 描述 */
   .desc-wrap {
     padding: 30rpx;
   }
@@ -141,7 +170,7 @@
     height: 120rpx;
   }
   
-  /* 底部操作栏 */
+  /* 底部栏 */
   .footer-bar {
     position: fixed;
     bottom: 0;
@@ -155,42 +184,39 @@
     box-sizing: border-box;
     gap: 15rpx;
   }
+  
+  /* 按钮样式 */
   .collect-btn {
     width: 160rpx;
     height: 70rpx;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1rpx solid #2d8cf0;
     border-radius: 35rpx;
     color: #2d8cf0;
     font-size: 26rpx;
-    gap: 6rpx;
   }
   .buy-btn {
     flex: 1;
     height: 70rpx;
-    background: linear-gradient(90deg, #2d8cf0, #48a2f8);
     color: #fff;
     text-align: center;
     line-height: 70rpx;
     border-radius: 35rpx;
     font-size: 28rpx;
+    background: rgba(16, 125, 242, 0.35) !important;
+    color: #fff !important;
+    border-color: rgba(45,140,240,0.4);
   }
-  
-  /* 自己商品 - 编辑按钮 */
   .edit-info-btn {
     width: 150rpx;
     height: 70rpx;
-    border: 1rpx solid #2d8cf0;
     border-radius: 35rpx;
     color: #2d8cf0;
     text-align: center;
     line-height: 70rpx;
     font-size: 26rpx;
-    background: #fff;
   }
-  /* 上下架按钮 */
   .status-btn {
     flex: 1;
     height: 70rpx;
@@ -201,40 +227,59 @@
     font-size: 28rpx;
   }
   .status-btn.online {
-    background: linear-gradient(90deg, #00c48c, #20e2a0);
+    background: rgba(0, 196, 140, 0.35) !important;
+    border-color: rgba(0,196,140,0.4);
   }
   .status-btn.offline {
-    background: linear-gradient(90deg, #fa5555, #ff7777);
+    background: rgba(250,85,85,0.35) !important;
+    border-color: rgba(250,85,85,0.4);
   }
-
-  /* 驳回提醒按钮 */
   .reject-tip-btn {
     flex: 1;
     height: 70rpx;
-    background: rgba(250,85,85,0.15);
     color: #fa5555;
     text-align: center;
     line-height: 70rpx;
     border-radius: 35rpx;
     font-size: 26rpx;
     font-weight: bold;
+    background: rgba(250,85,85,0.15) !important;
   }
-
-  /* 删除按钮 */
   .del-btn {
     width: 150rpx;
     height: 70rpx;
-    background: #fff;
     color: #fa5555;
-    border: 1rpx solid #fa5555;
     text-align: center;
     line-height: 70rpx;
     border-radius: 35rpx;
     font-size: 26rpx;
   }
   .collect-btn.disabled {
-    background: #ccc !important;
-    border-color: #ccc !important;
-    color: #fff !important;
+    background: rgba(200,200,200,0.3) !important;
+    color: #999 !important;
     pointer-events: none;
+  }
+  
+  /* 删除提示 */
+  .deleted-tip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    padding: 20rpx;
+  }
+  .deleted-box {
+    width: 100%;
+    padding: 80rpx 40rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20rpx;
+  }
+  .deleted-box .icon {
+    font-size: 60rpx;
+  }
+  .deleted-box .text {
+    font-size: 32rpx;
+    color: #666;
   }

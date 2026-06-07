@@ -1,5 +1,5 @@
 import { getNewGoodsPage } from '../../api/goods.js'
-import request from '../../utils/request.js' // 👈 加上
+import request from '../../utils/request.js'
 
 Page({
   data: {
@@ -9,14 +9,28 @@ Page({
     pageNum: 1,
     pageSize: 10,
     noMore: false,
-    isFirstLoaded: false
+    isFirstLoaded: false,
+    fromDetail: false // 标记是否从详情页返回
   },
 
   onShow() {
+    // 🔥 从详情页返回 → 不刷新
+    if (this.data.fromDetail) {
+      this.setData({ fromDetail: false })
+      return
+    }
+    // 否则正常刷新
     if (!this.data.isFirstLoaded) {
       this.setData({ isFirstLoaded: true })
-      this.refreshData()
     }
+    this.refreshData()
+  },
+
+  // 进入详情页时标记
+  goDetail(e) {
+    const id = e.currentTarget.dataset.id
+    this.setData({ fromDetail: true }) // 🔥 关键
+    wx.navigateTo({ url: '/pages/goodsDetail/goodsDetail?id=' + id })
   },
 
   refreshData() {
@@ -49,23 +63,20 @@ Page({
       if (res && res.code === 200 && res.data) {
         let newList = res.data.rows || []
 
-        // ======================
-        // ✅ 统一拼接图片（核心修改）
-        // ======================
         newList = newList.map(item => {
           item.timeStr = this.formatTime(item.createTime)
-          
-          // 拼接主图
+
           if (item.images) {
             let img = item.images.split(',')[0]
-            if (img && !img.startsWith('http')) {
-              item.mainImg = request.baseURL + img
-            } else {
-              item.mainImg = img
-            }
+            item.mainImg = this.fixImg(img)
           } else {
             item.mainImg = ''
           }
+
+          if (item.avatarUrl) {
+            item.avatarUrl = this.fixImg(item.avatarUrl)
+          }
+
           return item
         })
 
@@ -84,6 +95,12 @@ Page({
     }
   },
 
+  fixImg(img) {
+    if (!img) return ''
+    if (img.startsWith('http')) return img
+    return request.baseURL + img
+  },
+
   formatTime(timeStr) {
     if (!timeStr) return ''
     const date = new Date(timeStr)
@@ -96,9 +113,7 @@ Page({
     const { loading, noMore, pageNum } = this.data
     if (loading || noMore) return
 
-    this.setData({
-      pageNum: pageNum + 1
-    })
+    this.setData({ pageNum: pageNum + 1 })
     this.getGoodsList(false)
   },
 
@@ -106,11 +121,6 @@ Page({
     const type = e.currentTarget.dataset.type
     wx.setStorageSync('goodsType', Number(type))
     wx.navigateTo({ url: '/pages/goodsList/goodsList' })
-  },
-
-  goDetail(e) {
-    const id = e.currentTarget.dataset.id
-    wx.navigateTo({ url: '/pages/goodsDetail/goodsDetail?id=' + id })
   },
 
   onPullDownRefresh() {

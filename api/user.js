@@ -8,7 +8,12 @@ export const loginByCodeApi = (data) =>
   request.post('/loginWithCode', data)
 
 export const sendEmailCodeApi = (email) => 
-  request.post('/sendEmailCode?email=' + email)
+  request.get('/sendEmailCode?email=' + email)
+
+export const sendEmailCodeChangePwdApi = (email) => 
+  request.get('/sendEmailCodeChangePwd?email=' + email)
+
+export const sendEmailCodeDeleteAccountApi =(email)=>request.get('/sendEmailCodeDeleteAccount?email=' + email)
 
 // 个人中心
 export const getUserInfoApi = () => 
@@ -46,3 +51,7 @@ export const getSchoolListApi = () => {
 export const getUserEXCWalletList = (page,pageSize) => request.get('/user/getUserEXCWalletList',{page:page,pageSize:pageSize})
 
 export const getUserBalanceApi = ()=>request.get('/user/getExcWalletBalance')
+
+export const changeUserPwdApi = (changePwdDTO)=>request.post('/user/changeUserPwd',changePwdDTO)
+
+export const deleteAccountApi = (DTO)=>request.post('/user/deleteUserAccount',DTO)

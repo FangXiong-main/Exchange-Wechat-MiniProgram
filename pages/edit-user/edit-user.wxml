@@ -21,7 +21,8 @@
     <view class="item" bindtap="chooseAvatar">
       <text class="label">头像</text>
       <view class="avatar-row">
-        <image class="avatar" src="{{avatarUrl}}"></image>
+        <!-- 🔥 加了 mode="aspectFill" 完美不变形 -->
+        <image class="avatar" src="{{avatarUrl}}" mode="aspectFill"></image>
         <text class="tip">点击更换</text>
       </view>
     </view>
@@ -38,7 +39,7 @@
       />
     </view>
 
-    <!-- 所在学校 → 改为下拉选择 -->
+    <!-- 所在学校 -->
     <view class="item" bindtap="showSchoolPicker">
       <text class="label">所在学校</text>
       <text class="input picker-text">{{selectedSchoolName || '请选择学校'}}</text>

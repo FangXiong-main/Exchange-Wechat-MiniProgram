@@ -108,17 +108,15 @@
     text-align: right;
   }
   
-  /* 头像 */
+  /* 头像：和你参考页完全一样，不变形 */
   .avatar-row {
     display: flex;
     align-items: center;
   }
-  
   .avatar {
     width: 80rpx;
     height: 80rpx;
     border-radius: 50%;
-    object-fit: cover;
   }
   
   .tip {

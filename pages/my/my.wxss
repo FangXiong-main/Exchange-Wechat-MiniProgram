@@ -58,11 +58,12 @@
     padding: 30rpx;
     margin-bottom: 30rpx;
 }
+/* ✅ 头像：和你参考页完全一样，不变形 */
 .avatar {
-    width: 120rpx;
-    height: 120rpx;
-    border-radius: 50%;
-    margin-right: 24rpx;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  margin-right: 24rpx;
 }
 .user-info {
     flex: 1;
@@ -98,7 +99,6 @@
     flex-direction: column;
     gap: 20rpx;
 }
-/* 去掉align-items:center，内容靠左 */
 .menu-item {
     display: flex;
     justify-content: space-between;
@@ -112,7 +112,6 @@
 .arrow {
     color: #999;
 }
-/* 红色待处理订单标签 */
 .order-tip{
   color: #f53f3f;
   font-size:24rpx;
@@ -136,9 +135,25 @@
     font-weight: normal;
 }
 
-/* 菜单图标样式 */
 .menu-icon {
     font-size: 32rpx;
     margin-right: 20rpx;
     line-height: 1;
 }
+
+image.menu-icon {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.school-row {
+    display: flex;
+    align-items: center;
+    margin-top: 8rpx;
+  }
+  
+  .school-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 6rpx;
+  }

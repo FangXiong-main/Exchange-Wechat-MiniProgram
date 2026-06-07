@@ -11,7 +11,8 @@
   </view>
 
   <view class="goods-card glass-card" bindtap="goGoodsDetail">
-    <image class="goods-img" src="{{goodsImage}}"></image>
+    <!-- 🔥 加了 mode="aspectFill"，和你参考页一样 -->
+    <image class="goods-img" src="{{goodsImage}}" mode="aspectFill"></image>
     <view class="goods-info">
       <view class="goods-name">{{goodsName}}</view>
       <view class="goods-price">¥{{goodsPrice || '获取价格失败'}}</view>
@@ -37,13 +38,10 @@
 
 <view class="footer-bar glass-card" wx:if="{{showOperate}}">
   <view class="btn-box">
-    <!-- 状态 1、2 显示操作按钮 -->
     <view wx:if="{{status === 1 || status === 2}}" class="btn-row">
       <button class="btn orange" bindtap="cancelOrder">取消订单</button>
       <button class="btn green" bindtap="confirmOrder">我已确认面交</button>
     </view>
-
-    <!-- 已取消 / 已完成 显示删除 -->
     <button wx:elif="{{status === 3 || status === 4}}" class="btn gray" bindtap="deleteOrder">删除订单</button>
   </view>
 </view>

@@ -2,7 +2,8 @@
   <!-- 帖子内容 -->
   <view class="detail-card glass-card">
     <view class="circle-user">
-      <image class="avatar" src="{{post.avatarUrl}}"></image>
+      <!-- 🔥 头像加 mode -->
+      <image class="avatar" src="{{post.avatarUrl}}" mode="aspectFill"></image>
       <view class="user-info">
         <text class="nickname">{{post.username}}</text>
         <text class="time">{{post.createTime}}</text>
@@ -10,20 +11,23 @@
     </view>
 
     <view class="circle-content">{{post.content}}</view>
-    <image wx:if="{{post.images}}" class="circle-img" src="{{post.images}}"></image>
+    
+    <!-- 🔥 帖子图片加 mode -->
+    <image wx:if="{{post.images}}" class="circle-img" src="{{post.images}}" mode="aspectFill" bindtap="previewImage"></image>
 
     <view wx:if="{{isOwner}}" class="delete-wrapper">
       <view class="del-btn" bindtap="deletePost">删除帖子</view>
     </view>
   </view>
 
-  <!-- 评论标题 → 固定不动 -->
+  <!-- 评论标题 -->
   <view class="comment-title">全部评论</view>
 
   <!-- 评论滚动区域 -->
   <scroll-view class="comment-scroll" scroll-y bindscrolltolower="onReachBottom">
     <view class="comment-item glass-card" wx:for="{{commentList}}" wx:key="id">
-      <image class="avatar" src="{{item.avatarUrl}}"></image>
+      <!-- 🔥 评论头像加 mode -->
+      <image class="avatar" src="{{item.avatarUrl}}" mode="aspectFill"></image>
       <view class="comment-right">
         <view class="comment-top">
           <text class="name">{{item.username}}</text>
@@ -37,7 +41,7 @@
     <view wx:if="{{loading}}" class="load-tip">加载中...</view>
   </scroll-view>
 
-  <!-- 底部输入框 → 玻璃效果 + 固定底部 -->
+  <!-- 底部输入框 -->
   <view class="action-bar">
     <view class="input-wrapper glass-input">
       <input placeholder="写点友善的评论吧…" value="{{content}}" bindinput="onInput" />

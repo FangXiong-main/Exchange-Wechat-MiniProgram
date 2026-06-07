@@ -1,13 +1,18 @@
 import { publishPostApi } from '../../api/post.js';
+// 引入你项目统一的上传和请求工具
+import { uploadFile } from '../../api/upload.js';
+import request from '../../utils/request.js';
 
 Page({
   data: {
     content: '',
-    imgUrl: '',
+    // 统一规范：imgPath 存路径 / imgShow 显示用
+    imgPath: '',   // 传给后端：纯路径（不带域名）
+    imgShow: '',   // 页面显示：完整URL
     typeIndex: 0,
     typeList: ['好人好事', '失物招领', '校园闲聊', '生活互助'],
     canPublish: false,
-    showTypePanel:false //控制下拉弹窗显示隐藏
+    showTypePanel: false
   },
 
   onInput(e) {
@@ -16,75 +21,102 @@ Page({
     this.checkBtn();
   },
 
-  //打开下拉弹窗
-  openTypeSelect(){
-    this.setData({showTypePanel:true})
+  openTypeSelect() {
+    this.setData({ showTypePanel: true })
   },
-  //关闭弹窗
-  closeTypeSelect(){
-    this.setData({showTypePanel:false})
+  closeTypeSelect() {
+    this.setData({ showTypePanel: false })
   },
-  //选中分类
-  selectType(e){
+  selectType(e) {
     const idx = e.currentTarget.dataset.index;
     this.setData({
-      typeIndex:idx,
-      showTypePanel:false
+      typeIndex: idx,
+      showTypePanel: false
     })
   },
 
-  // 检查按钮
   checkBtn() {
     const can = this.data.content.trim().length > 0;
     this.setData({ canPublish: can });
   },
 
-  // 选择图片
+  // ====================
+  // ✅ 选择图片（统一规范）
+  // ====================
   chooseImage() {
     wx.chooseMedia({
       count: 1,
       mediaType: ['image'],
       success: (res) => {
-        this.upload(res.tempFiles[0].tempFilePath);
+        const tempPath = res.tempFiles[0].tempFilePath;
+        this.uploadImage(tempPath);
       }
     });
   },
 
-  // 上传图片（换成你自己的上传接口）
-  upload(filePath) {
-    wx.showLoading({ title: '上传中' });
-    wx.uploadFile({
-      url: 'https://你的上传接口',
-      filePath: filePath,
-      name: 'file',
-      success: (res) => {
-        const data = JSON.parse(res.data);
-        this.setData({ imgUrl: data.url });
-      },
-      complete: () => wx.hideLoading()
+  // ====================
+  // ✅ 上传图片（用你项目接口）
+  // ====================
+  async uploadImage(filePath) {
+    wx.showLoading({ title: '上传中...' });
+    try {
+      const uploadRes = await uploadFile(filePath);
+      if (uploadRes.code === 200) {
+        const imgPath = uploadRes.data;
+        this.setData({
+          imgPath: imgPath,                     // 存路径
+          imgShow: request.baseURL + imgPath    // 显示用
+        });
+        wx.showToast({ title: '上传成功', icon: 'success' });
+      } else {
+        wx.showToast({ title: '上传失败', icon: 'none' });
+      }
+    } catch (err) {
+      wx.showToast({ title: '上传异常', icon: 'none' });
+    } finally {
+      wx.hideLoading();
+    }
+  },
+
+  // ====================
+  // ✅ 预览图片
+  // ====================
+  previewImage() {
+    const { imgShow } = this.data;
+    if (!imgShow) return;
+    wx.previewImage({
+      current: imgShow,
+      urls: [imgShow]
     });
   },
 
+  // ====================
+  // ✅ 删除图片
+  // ====================
   deleteImg() {
-    this.setData({ imgUrl: '' });
+    this.setData({
+      imgPath: '',
+      imgShow: ''
+    });
   },
 
-  // 发布（带 type 传给后端）
+  // ====================
+  // ✅ 发布（只传路径！）
+  // ====================
   async publish() {
-    const { content, imgUrl, typeIndex } = this.data;
+    const { content, imgPath, typeIndex } = this.data;
     if (!content.trim()) {
       wx.showToast({ title: '请输入内容', icon: 'none' });
       return;
     }
-    // 下标0→1，依次+1
-    const type = Number(typeIndex) + 1;
 
+    const type = Number(typeIndex) + 1;
     wx.showLoading({ title: '发布中...' });
 
     try {
       const res = await publishPostApi({
         content: content,
-        images: imgUrl || '',
+        images: imgPath || '',  // ✅ 只传路径
         type: type
       });
 

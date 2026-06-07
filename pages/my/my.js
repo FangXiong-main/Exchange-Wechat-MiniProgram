@@ -5,7 +5,7 @@ import {
   } from '../../api/user.js'
   import { getSchoolListApi } from '../../api/user.js'
   import { getUnresolvedOrdersCountApi } from '../../api/order.js'
-  import request from '../../utils/request.js' // 👈 加上
+  import request from '../../utils/request.js'
   
   Page({
     data: {
@@ -18,19 +18,20 @@ import {
     },
   
     onShow() {
-      let user = wx.getStorageSync('userInfo') || {}
-      
-      // ======================
-      // ✅ 头像拼接（核心修改）
-      // ======================
-      if (user.avatarUrl) {
-        if (!user.avatarUrl.startsWith('http')) {
-          user.avatarUrl = request.baseURL + user.avatarUrl
-        }
+      // 1. 从 storage 取出原始数据（绝对不改！）
+      let originalUser = wx.getStorageSync('userInfo') || {}
+  
+      // 2. 【关键】创建一个副本，只在副本上拼接头像
+      let showUser = { ...originalUser }
+  
+      // 3. 只给副本拼接头像，不影响原始数据！
+      if (showUser.avatarUrl && !showUser.avatarUrl.startsWith('http')) {
+        showUser.avatarUrl = request.baseURL + showUser.avatarUrl
       }
   
+      // 4. 渲染副本，storage 纹丝不动
       this.setData({
-        userInfo: user
+        userInfo: showUser
       })
   
       this.loadSchoolData()
@@ -138,16 +139,12 @@ import {
                 const userRes = await getUserInfoApi()
                 if (userRes.code === 200) {
                   let newUser = userRes.data
-                  // ======================
-                  // ✅ 这里也拼接头像
-                  // ======================
-                  if (newUser.avatarUrl && !newUser.avatarUrl.startsWith('http')) {
-                    newUser.avatarUrl = request.baseURL + newUser.avatarUrl
-                  }
   
+                  // ✅ 直接存原始数据，不拼接！
                   wx.setStorageSync('userInfo', newUser)
-                  this.setData({ userInfo: newUser })
-                  this.loadSchoolData()
+  
+                  // ✅ 页面重新渲染，onShow 会自己拼接头像
+                  this.onShow()
                 }
               } finally {
                 this.setData({
@@ -170,6 +167,7 @@ import {
     goMyOrder() { wx.navigateTo({ url: '/pages/order/order' }) },
     goMyFavorite() { wx.navigateTo({ url: '/pages/favorite/favorite' }) },
     goExcWallet() { wx.navigateTo({ url: '/pages/excWallet/excWallet' }) },
+    goAccount() { wx.navigateTo({ url: '/pages/account/account' }) },
   
     logout() {
       wx.showModal({

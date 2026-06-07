@@ -1,9 +1,10 @@
 import { addViewCountApi, getPostPageApi } from '../../api/post.js';
+import request from '../../utils/request.js';
 
 Page({
   data: {
-    filterList: ["好人好事", "失物招领", "校园闲聊", "生活互助"],
-    filterIndex: 1,
+    filterList: ["全部", "好人好事", "失物招领", "校园闲聊", "生活互助"],
+    filterIndex: 0, // 默认一定是 0（全部）
 
     postList: [],
     searchKey: '',
@@ -16,11 +17,20 @@ Page({
   },
 
   onShow() {
-    const saveType = wx.getStorageSync('post_type')
-    if (saveType !== '' && saveType != null) {
-      this.setData({ filterIndex: Number(saveType) })
+    // 从本地取
+    const saveType = wx.getStorageSync('post_type');
+    console.log("本地读取到的类型：", saveType);
+
+    // 只有合法值才覆盖，否则保持 0（全部）
+    if (saveType !== '' && saveType != null && !isNaN(saveType)) {
+      const idx = Number(saveType);
+      // 必须在 0-4 之间才有效
+      if (idx >= 0 && idx <= 4) {
+        this.setData({ filterIndex: idx });
+      }
     }
-    this.onPullDownRefresh()
+
+    this.onPullDownRefresh();
   },
 
   onPullDownRefresh() {
@@ -48,8 +58,10 @@ Page({
     this.setData({ loading: true });
 
     try {
-      const filterIndex = this.data.filterIndex ?? 1;
-      const type = filterIndex + 1;
+      const filterIndex = this.data.filterIndex;
+      const type = filterIndex; 
+
+      console.log("当前选择 index:", filterIndex, " 发送 type:", type);
 
       const res = await getPostPageApi({
         pageNum: this.data.pageNum,
@@ -57,25 +69,34 @@ Page({
         type: type
       });
 
-      // code=0 错误，弹出后端msg
       if (res.code === 0) {
         wx.showToast({ title: res.msg || '请求异常', icon: 'none' });
         return;
       }
 
-      // 正常返回
       if (res.code === 200) {
         const { total, rows } = res.data;
         let newList = (rows || []).map(item => {
+          let avatar = item.avatarUrl || '';
+          if (avatar && !avatar.startsWith('http')) {
+            avatar = request.baseURL + avatar;
+          }
+
           let img = '';
           if (item.images && item.images.trim() !== '') {
             img = item.images.split(',')[0] || '';
+            if (img && !img.startsWith('http')) {
+              img = request.baseURL + img;
+            }
           }
+
           const viewCount = item.viewCount ?? 0;
           const commentCount = item.commentCount ?? 0;
           const createTime = this.formatTime(item.createTime);
+          
           return {
             ...item,
+            avatarUrl: avatar,
             img,
             viewCount,
             commentCount,
@@ -118,9 +139,9 @@ Page({
     wx.showActionSheet({
       itemList: this.data.filterList,
       success: (res) => {
-        const idx = res.tapIndex
+        const idx = res.tapIndex;
         this.setData({ filterIndex: idx }, () => {
-          wx.setStorageSync('post_type', idx)
+          wx.setStorageSync('post_type', idx);
           this.onPullDownRefresh();
         });
       }
@@ -138,11 +159,10 @@ Page({
     });
   },
 
-goDetail(e) {
+  goDetail(e) {
     const item = e.currentTarget.dataset.item;
     addViewCountApi(item.id);
     const post = encodeURIComponent(JSON.stringify(item));
-
     wx.navigateTo({
       url: `/pages/post-detail/post-detail?post=${post}`
     });

@@ -8,10 +8,17 @@
 <view class="container glass-bg">
   <!-- 用户信息卡片 -->
   <view class="user-card glass-card">
-    <image class="avatar" src="{{userInfo.avatarUrl || '/static/default-avatar.png'}}"></image>
+    <!-- 🔥 加了 mode="aspectFill" 完美不变形 -->
+    <image class="avatar" src="{{userInfo.avatarUrl || '/static/default-avatar.png'}}" mode="aspectFill"></image>
     <view class="user-info">
       <text class="nickname">{{userInfo.username || '未登录'}}</text>
-      <text class="school-text">{{schoolName || '未设置学校'}}</text>
+      
+      <!-- 👇 这里是加了图标的学校名称 -->
+      <view class="school-row">
+        <image class="school-icon" src="/images/school.svg"></image>
+        <text class="school-text">{{schoolName || '未设置学校'}}</text>
+      </view>
+
     </view>
     <view class="edit-btn glass-btn" bindtap="goEditUser">编辑</view>
   </view>
@@ -25,7 +32,7 @@
   <view class="menu-box">
     <view class="menu-item glass-card" bindtap="goMyPublish">
       <view class="menu-left-wrap">
-        <view class="menu-icon">📦</view>
+        <image class="menu-icon" src="/images/my-publish.svg"></image>
         <text class="menu-text">我发布的商品</text>
       </view>
       <text class="arrow">></text>
@@ -33,7 +40,7 @@
 
     <view class="menu-item glass-card" bindtap="goMyOrder">
       <view class="menu-left-wrap">
-        <view class="menu-icon">🧾</view>
+        <image class="menu-icon" src="/images/orders.svg"></image>
         <text class="menu-text">我的订单</text>
         <text wx:if="{{unresolvedCount > 0}}" class="order-tip">待处理：{{unresolvedCount}}</text>
       </view>
@@ -42,20 +49,29 @@
 
     <view class="menu-item glass-card" bindtap="goMyFavorite">
       <view class="menu-left-wrap">
-        <view class="menu-icon">❤️</view>
+        <image class="menu-icon" src="/images/favorite.svg"></image>
         <text class="menu-text">我的收藏</text>
       </view>
       <text class="arrow">></text>
     </view>
 
-    <!-- 新增 EXC-Wallet -->
-    <view class="menu-item glass-card" bindtap="goExcWallet">
+    <!-- 🔥 新增：账号管理 -->
+    <view class="menu-item glass-card" bindtap="goAccount">
       <view class="menu-left-wrap">
-        <view class="menu-icon">💰</view>
-        <text class="menu-text">EXC-Wallet</text>
+        <image class="menu-icon" src="/images/account.svg"></image>
+        <text class="menu-text">账号管理</text>
       </view>
       <text class="arrow">></text>
     </view>
+
+    <view class="menu-item glass-card" bindtap="goExcWallet">
+    <view class="menu-left-wrap">
+        <image class="menu-icon" src="/images/exc-wallet.svg"></image>
+        <text class="menu-text">EXC-Wallet</text>
+    </view>
+    <text class="arrow">></text>
+    </view>
+    
   </view>
 
   <!-- 退出登录 -->

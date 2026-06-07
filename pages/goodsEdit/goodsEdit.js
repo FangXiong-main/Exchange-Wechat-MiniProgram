@@ -1,4 +1,6 @@
 import { getGoodsDetailApi, updateGoodsApi } from '../../api/goods.js'
+import { uploadFile } from '../../api/upload.js'
+import request from '../../utils/request.js'
 
 Page({
   data: {
@@ -6,10 +8,11 @@ Page({
     id: null,
     name: '',
     price: '',
-    images: '',
+    images: '',          // 存给后端的路径（不带前缀）
+    showImages: '',      // 页面显示用（带前缀）
     detailInfo: '',
-    type: 1, // 传给后端的值：1书籍 2数码 3服饰 4电器 5其他
-    typeIndex: 0, // picker 下标（0~4）
+    type: 1,
+    typeIndex: 0,
     typeList: ['书籍','数码','服饰','电器','其他']
   },
 
@@ -31,13 +34,21 @@ Page({
         return
       }
       const info = res.data
-      // 后端type(1-5) 转 picker下标(0-4)，默认兜底为0
       let index = (info.type || 1) - 1
       index = Math.max(0, Math.min(4, index))
+
+      // 拼接显示用的图片（不修改原数据）
+      let showImg = ''
+      if (info.images) {
+        const img = info.images.split(',')[0]
+        showImg = img.startsWith('http') ? img : request.baseURL + img
+      }
+
       this.setData({
         name: info.name || '',
         price: info.price || '',
-        images: info.images || '',
+        images: info.images || '',   // 纯路径，给后端保存
+        showImages: showImg,        // 页面显示
         detailInfo: info.detailInfo || '',
         type: info.type || 1,
         typeIndex: index,
@@ -50,44 +61,83 @@ Page({
     }
   },
 
-  // 商品名称输入
   inputName(e) {
     this.setData({ name: e.detail.value })
   },
 
-  // 价格输入
+  // ======================
+  // ✅ 价格逻辑（和发布页完全一样）
+  // ======================
   inputPrice(e) {
-    this.setData({ price: e.detail.value })
+    let val = e.detail.value;
+    val = val.replace(/[^\d.]/g, '');
+    val = val.replace(/\.{2,}/g, '.');
+    const dotIndex = val.indexOf('.');
+    if (dotIndex === -1) {
+      val = val.slice(0, 8);
+    } else {
+      const intPart = val.slice(0, dotIndex).slice(0, 8);
+      const decimalPart = val.slice(dotIndex + 1, dotIndex + 3);
+      val = intPart + '.' + decimalPart;
+    }
+    this.setData({ price: val });
   },
 
-  // 描述输入
   inputDesc(e) {
     this.setData({ detailInfo: e.detail.value })
   },
-
-  // 切换商品类型
   changeType(e) {
     const idx = Number(e.detail.value)
     this.setData({
       typeIndex: idx,
-      type: idx + 1 // 下标转后端数字 1-5
+      type: idx + 1
     })
   },
 
-  // 选择图片
-  chooseImage() {
+  // 选择并上传图片（统一规范）
+  async chooseImage() {
     wx.chooseImage({
       count: 1,
       sizeType: ['compressed'],
       sourceType: ['album', 'camera'],
-      success: (res) => {
+      success: async (res) => {
         const tempPath = res.tempFilePaths[0]
-        this.setData({ images: tempPath })
+        wx.showLoading({ title: '上传中...' })
+
+        try {
+          const uploadRes = await uploadFile(tempPath)
+          if (uploadRes.code === 200) {
+            const imgPath = uploadRes.data
+            this.setData({
+              images: imgPath,              // 仅路径，提交用
+              showImages: request.baseURL + imgPath // 显示用
+            })
+            wx.showToast({ title: '上传成功', icon: 'success' })
+          } else {
+            wx.showToast({ title: '上传失败', icon: 'none' })
+          }
+        } catch (err) {
+          wx.showToast({ title: '上传异常', icon: 'none' })
+        } finally {
+          wx.hideLoading()
+        }
       }
     })
   },
 
-  // 保存修改
+  // 预览图片
+  previewImage() {
+    const { showImages } = this.data
+    if (!showImages) return
+    wx.previewImage({
+      current: showImages,
+      urls: [showImages]
+    })
+  },
+
+  // ======================
+  // ✅ 保存（增加价格正则校验）
+  // ======================
   async saveGoods() {
     const { id, name, price, images, detailInfo, type } = this.data
     if (!name) {
@@ -99,22 +149,28 @@ Page({
       return
     }
 
+    // ✅ 价格格式校验（和发布页一致）
+    const reg = /^\d{1,8}(\.\d{2})?$/;
+    if (!reg.test(price)) {
+      wx.showToast({
+        title: '请输入正确金额（0~99999999.99）',
+        icon: 'none',
+        duration: 2000
+      });
+      return;
+    }
+
     wx.showLoading({ title: '保存中...' })
     try {
       const params = {
-        id,
-        name,
-        price,
-        images,
-        detailInfo,
-        type // 直接传 1/2/3/4/5 给后端
+        id, name, price,
+        images: images || '', // 只传路径！
+        detailInfo, type
       }
       const res = await updateGoodsApi(params)
       if (res.code === 200) {
         wx.showToast({ title: '保存成功，已重新提交审核' })
-        setTimeout(() => {
-          wx.navigateBack()
-        }, 1200)
+        setTimeout(() => wx.navigateBack(), 1200)
       } else {
         wx.showToast({ title: res.msg || '保存失败', icon: 'none' })
       }
@@ -125,7 +181,6 @@ Page({
     wx.hideLoading()
   },
 
-  // 取消返回
   goBack() {
     wx.navigateBack()
   }

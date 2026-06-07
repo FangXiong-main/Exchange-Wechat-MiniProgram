@@ -1,0 +1,53 @@
+
+  /* 浅蓝渐变背景 + 液态玻璃 */
+  .glass-bg {
+    background: linear-gradient(135deg, #e6f7ff 0%, #f0f9ff 100%);
+    min-height: 100vh;
+  }
+  
+  /* 容器 */
+  .container {
+    padding: 30rpx;
+    box-sizing: border-box;
+  }
+  
+  /* 菜单布局（和你的个人中心完全一样） */
+  .menu-box {
+    display: flex;
+    flex-direction: column;
+    gap: 20rpx;
+  }
+  .menu-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 30rpx;
+    font-size: 28rpx;
+  }
+  .menu-left-wrap{
+    display: flex;
+    align-items: center;
+  }
+  .arrow {
+    color: #999;
+  }
+  
+  /* 液态玻璃卡片 */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(100, 120, 200, 0.1);
+    border-radius: 20rpx;
+  }
+  
+  /* 图标大小 */
+  .menu-icon {
+    font-size: 32rpx;
+    margin-right: 20rpx;
+    line-height: 1;
+  }
+  image.menu-icon {
+    width: 40rpx;
+    height: 40rpx;
+  }

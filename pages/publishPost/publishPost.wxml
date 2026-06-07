@@ -32,18 +32,18 @@
   </view>
 
   <!-- 图片上传 -->
-  <view class="img-card glass-card">
-    <text class="img-title">上传图片（最多1张）</text>
-    <view class="img-wrap">
-      <view wx:if="{{imgUrl}}" class="img-item">
-        <image src="{{imgUrl}}" mode="aspectFill"></image>
-        <view class="del-img" bindtap="deleteImg">×</view>
-      </view>
-      <view wx:if="{{!imgUrl}}" class="upload-btn" bindtap="chooseImage">
-        <text class="add-icon">+</text>
-      </view>
+<view class="img-card glass-card">
+  <text class="img-title">上传图片（最多1张）</text>
+  <view class="img-wrap">
+    <view wx:if="{{imgShow}}" class="img-item">
+      <image src="{{imgShow}}" mode="aspectFill" bindtap="previewImage"></image>
+      <view class="del-img" bindtap="deleteImg">×</view>
+    </view>
+    <view wx:if="{{!imgShow}}" class="upload-btn" bindtap="chooseImage">
+      <text class="add-icon">+</text>
     </view>
   </view>
+</view>
 
   <!-- 发布按钮 -->
   <view class="publish-btn {{!canPublish ? 'disabled' : ''}}" bindtap="publish">

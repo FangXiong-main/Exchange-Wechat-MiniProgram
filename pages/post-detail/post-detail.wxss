@@ -49,6 +49,14 @@ page {
     border-radius: 50%;
     margin-right: 20rpx;
   }
+
+  /* 🔥 修复：用户名和时间拉开距离 */
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8rpx;
+  }
+
   .nickname {
     font-size: 28rpx;
     color: #333;

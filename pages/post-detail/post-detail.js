@@ -3,6 +3,7 @@ import {
     addCommentApi, 
     deletePostApi 
   } from '../../api/post.js';
+  import request from '../../utils/request.js'; // 👈 加上
   
   Page({
     data: {
@@ -20,6 +21,17 @@ import {
   
     onLoad(options) {
       const post = JSON.parse(decodeURIComponent(options.post));
+      
+      // ======================
+      // ✅ 头像 + 图片自动拼接域名
+      // ======================
+      if (post.avatarUrl && !post.avatarUrl.startsWith('http')) {
+        post.avatarUrl = request.baseURL + post.avatarUrl;
+      }
+      if (post.images && !post.images.startsWith('http')) {
+        post.images = request.baseURL + post.images;
+      }
+  
       this.setData({ post });
   
       const userInfo = wx.getStorageSync('userInfo');
@@ -73,10 +85,16 @@ import {
   
         if (res.code === 200) {
           const { total, rows } = res.data;
-          const newList = (rows || []).map(item => ({
-            ...item,
-            createTime: this.formatTime(item.createTime)
-          }));
+          const newList = (rows || []).map(item => {
+            // 评论头像拼接
+            if (item.avatarUrl && !item.avatarUrl.startsWith('http')) {
+              item.avatarUrl = request.baseURL + item.avatarUrl;
+            }
+            return {
+              ...item,
+              createTime: this.formatTime(item.createTime)
+            };
+          });
   
           const finalList = isFirstPage
             ? newList
@@ -96,6 +114,18 @@ import {
         });
         wx.stopPullDownRefresh();
       }
+    },
+  
+    // ======================
+    // ✅ 图片点击预览
+    // ======================
+    previewImage() {
+      const img = this.data.post.images;
+      if (!img) return;
+      wx.previewImage({
+        current: img,
+        urls: [img]
+      });
     },
   
     onInput(e) {

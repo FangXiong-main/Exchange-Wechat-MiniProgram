@@ -1,0 +1,175 @@
+/* 加载 */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  
+  .loading-glass {
+    padding: 50rpx 80rpx;
+    border-radius: 20rpx;
+    background: rgba(255,255,255,0.25);
+    border: 1px solid rgba(255,255,255,0.3);
+    backdrop-filter: blur(30px);
+  }
+  
+  .loading-text {
+    font-size: 32rpx;
+    color: #ff4444;
+    font-weight: bold;
+  }
+  
+  /* 全局玻璃样式 */
+  .glass-bg {
+    background: linear-gradient(135deg, #e6f7ff 0%, #f0f9ff 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    min-height: 100vh;
+  }
+  
+  .glass-card {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(100, 120, 200, 0.1);
+    border-radius: 20rpx;
+  }
+  
+  .glass-btn {
+    background: rgba(102, 175, 239, 0.3);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #2d8cf0 !important;
+  }
+  
+  .code-btn[disabled],
+  .delete-btn[disabled] {
+    opacity: 0.5;
+  }
+  
+  /* 布局 */
+  .container {
+    padding: 30rpx 20rpx;
+    box-sizing: border-box;
+  }
+  
+  /* 头部 */
+  .header {
+    padding: 35rpx 25rpx;
+    text-align: center;
+    margin-bottom: 30rpx;
+  }
+  
+  .red-title {
+    color: #ff3333 !important;
+    font-size: 44rpx;
+  }
+  
+  .title {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 12rpx;
+  }
+  
+  .sub-desc {
+    font-size: 26rpx;
+    color: #666;
+  }
+  
+  /* 内容 */
+  .content {
+    padding: 30rpx 25rpx;
+    line-height: 1.8;
+    margin-bottom: 30rpx;
+  }
+  
+  .warning-section {
+    border: 1rpx solid rgba(255,60,60,0.2);
+  }
+  
+  .p {
+    font-size: 28rpx;
+    color: #333;
+    display: block;
+    margin-bottom: 16rpx;
+    text-align: justify;
+  }
+  
+  .bold {
+    font-weight: bold;
+    color: #ff3333;
+  }
+  
+  .red-warning {
+    color: #ff3333;
+    font-weight: 500;
+  }
+  
+  .small-title {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10rpx;
+    display: block;
+  }
+  
+  /* 表单 */
+  .form-box {
+    padding: 30rpx;
+    margin-bottom: 40rpx;
+  }
+  
+  .input-item {
+    padding: 24rpx 20rpx;
+    border-bottom: 1rpx solid rgba(100,120,200,0.1);
+  }
+  
+  .input-item:last-child {
+    border-bottom: none;
+  }
+  
+  .input-item input {
+    font-size: 28rpx;
+    color: #333;
+  }
+  
+  .code-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .code-item input {
+    flex: 1;
+  }
+  
+  .code-btn {
+    padding: 16rpx 24rpx;
+    border-radius: 16rpx;
+    font-size: 24rpx;
+  }
+  
+  /* 注销按钮（红色液态玻璃） */
+  .delete-btn {
+    background: rgba(255, 60, 60, 0.3);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 80, 80, 0.4);
+    color: #fff;
+    text-align: center;
+    padding: 28rpx 0;
+    font-size: 32rpx;
+    font-weight: bold;
+    border-radius: 20rpx;
+    margin-top: 20rpx;
+    box-shadow: 0 8rpx 24rpx rgba(255,60,60,0.2);
+  }

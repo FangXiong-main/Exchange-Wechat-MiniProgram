@@ -1,4 +1,5 @@
 import { getMyFavoriteApi } from '../../api/goods.js'
+import request from '../../utils/request.js' // 👈 加上
 
 Page({
   data: {
@@ -42,12 +43,25 @@ Page({
       let newList = rows || []
 
       // ======================
-      // ✅ 时间格式化（优化在这里）
+      // ✅ 统一图片拼接规范（核心修改）
       // ======================
       newList = newList.map(item => {
         if (item.createTime) {
           item.createTime = this.formatTime(item.createTime)
         }
+
+        // 拼接商品主图
+        if (item.images) {
+          let img = item.images.split(',')[0]
+          if (img && !img.startsWith('http')) {
+            item.mainImg = request.baseURL + img
+          } else {
+            item.mainImg = img
+          }
+        } else {
+          item.mainImg = ''
+        }
+
         return item
       })
 
@@ -67,9 +81,6 @@ Page({
     callback && callback()
   },
 
-  // ======================
-  // ✅ 时间格式化工具方法
-  // ======================
   formatTime(timeStr) {
     if (!timeStr) return ''
     const date = new Date(timeStr)

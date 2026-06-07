@@ -1,5 +1,5 @@
 import { getGoodsDetailApi, toggleFavoriteApi, deleteGoodsApi, changeSaleStatusApi } from '../../api/goods.js'
-import request from '../../utils/request.js' // 👈 加上
+import request from '../../utils/request.js'
 
 Page({
   data: {
@@ -32,17 +32,18 @@ Page({
     this.setData({ loading: true })
     try {
       const res = await getGoodsDetailApi(this.data.id)
-      if (res.code !== 200) {
-        wx.showToast({ title: res.msg || '加载失败', icon: 'none' })
+      
+      if (res.code !== 200 || !res.data) {
+        this.setData({
+          isDeleted: true,
+          loading: false
+        })
         return
       }
-
+  
       const g = res.data
       const loginUserId = wx.getStorageSync('userInfo')?.id || null
-
-      // ======================
-      // ✅ 图片统一拼接（核心）
-      // ======================
+  
       let imgList = g.images ? g.images.split(',') : []
       imgList = imgList.map(img => {
         if (img && !img.startsWith('http')) {
@@ -50,13 +51,12 @@ Page({
         }
         return img
       })
-
-      // 头像也拼接
+  
       let avatar = g.avatarUrl || ''
       if (avatar && !avatar.startsWith('http')) {
         avatar = request.baseURL + avatar
       }
-
+  
       this.setData({
         name: g.name,
         price: g.price,
@@ -66,17 +66,30 @@ Page({
         auditStatus: g.auditStatus,
         rejectReason: g.rejectReason,
         username: g.username,
-        avatarUrl: avatar, // 👈 已拼接
+        avatarUrl: avatar,
         createTime: this.formatTime(g.createTime),
         isLiked: g.isLiked || 0,
-        imgList: imgList, // 👈 已全部拼接
+        imgList: imgList,
         isMyGoods: loginUserId == g.userId,
+        isDeleted: false // 👈 未删除
       })
     } catch (err) {
       console.error(err)
+      this.setData({ isDeleted: true })
     } finally {
       this.setData({ loading: false })
     }
+  },
+
+  // 点击图片放大预览 ✅ 新增
+  previewImage(e) {
+    const index = e.currentTarget.dataset.index
+    wx.previewImage({
+      current: this.data.imgList[index],
+      urls: this.data.imgList,
+      enable: true,
+      showmenu: true
+    })
   },
 
   async toggleCollect() {
@@ -206,5 +219,12 @@ Page({
     const hh = date.getHours().toString().padStart(2, '0')
     const mm = date.getMinutes().toString().padStart(2, '0')
     return `${y}-${m}-${d} ${hh}:${mm}`
+  },
+
+  
+  onPullDownRefresh() {
+    this.getDetail().finally(() => {
+      wx.stopPullDownRefresh()
+    })
   }
 })
