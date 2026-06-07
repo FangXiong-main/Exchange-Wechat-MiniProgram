@@ -56,7 +56,7 @@
     </view>
     <view class="category-item" bindtap="goType" data-type="4">
       <view class="category-icon bg-yellow glass-icon">
-        <image src="/images/home-select/digit.svg"></image>
+        <image src="/images/home-select/electric.svg"></image>
       </view>
       <text class="category-name">电器</text>
     </view>
