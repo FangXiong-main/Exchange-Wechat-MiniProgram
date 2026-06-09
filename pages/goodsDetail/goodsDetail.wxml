@@ -17,7 +17,7 @@
 <view wx:else class="container glass-bg">
   <!-- 卖家信息 -->
   <view class="user-card glass-card">
-    <image class="avatar" src="{{avatarUrl}}"></image>
+    <image class="avatar" src="{{avatarUrl}}" mode="aspectFill"></image>
     <view class="user-info">
       <view class="nickname">{{username}}</view>
       <view class="time">发布于 {{createTime}}</view>

@@ -3,7 +3,7 @@
 
 <!-- 内容滚动区域 -->
 <view class="container glass-bg">
-  <!-- 搜索 + 筛选栏 -->
+
   <view class="header-filter glass-float">
     <view class="search-box glass-input">
       <icon type="search" size="14" color="#999" class="search-icon"></icon>
@@ -17,11 +17,10 @@
     </view>
   </view>
 
-  <!-- 帖子列表 -->
   <view class="circle-list">
     <view class="circle-item glass-card" wx:for="{{postList}}" wx:key="id" bindtap="goDetail" data-item="{{item}}">
       <view class="circle-user">
-        <!-- 🔥 头像加 mode -->
+    
         <image class="avatar" src="{{item.avatarUrl}}" mode="aspectFill"></image>
         <view class="user-info">
           <text class="nickname">{{item.username}}</text>
@@ -30,7 +29,7 @@
       </view>
 
       <view class="circle-content">{{item.content}}</view>
-      <!-- 🔥 帖子图片加 mode -->
+    
       <image wx:if="{{item.img}}" class="circle-img" src="{{item.img}}" mode="aspectFill"></image>
 
       <view class="circle-action">
