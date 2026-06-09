@@ -22,6 +22,9 @@
   .loading-text { 
     font-size: 32rpx; 
     color: #2d8cf0; 
+    /* 防止 iOS 毛玻璃下文字消失 */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
   }
   
   /* 页面背景 */
@@ -35,10 +38,10 @@
     box-sizing: border-box;
   }
   
-  /* 毛玻璃卡片 */
+  /* 毛玻璃卡片（核心修复） */
   .glass-card { 
     background: rgba(255,255,255,0.55); 
-    -webkit-backdrop-filter: blur(25rpx);
+    -webkit-backdrop-filter: blur(25rpx);  /* iOS 兼容 */
     backdrop-filter: blur(25rpx); 
     border-radius: 24rpx; 
     margin-bottom: 24rpx; 
@@ -67,22 +70,27 @@
     display: flex; 
     align-items: center; 
   }
-  /* ✅ 完全和你参考页一样的图片样式 */
   .goods-img { 
     width: 140rpx; 
     height: 140rpx; 
     border-radius: 20rpx; 
     margin-right: 24rpx; 
+    object-fit: cover; 
     flex-shrink: 0;
   }
   .goods-info { 
     flex: 1; 
+    /* 修复 iOS 上 backdrop-filter 导致文字不可见 */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
   }
   .goods-name { 
     font-size: 32rpx; 
     color: #333; 
     margin-bottom: 12rpx; 
     line-height: 1.4; 
+    word-wrap: break-word; 
+    word-break: break-all;
   }
   .goods-price { 
     font-size: 34rpx; 
@@ -90,7 +98,7 @@
     font-weight: bold; 
   }
   
-  /* 订单信息 */
+  /* 订单信息 —— 手机显示不全 核心修复在这里 */
   .info-card .row { 
     display: flex; 
     justify-content: space-between; 
@@ -119,6 +127,7 @@
     white-space: normal;
   }
   
+  /* 超长内容自动换行，不被遮挡 */
   .text-over {
     word-wrap: break-word !important;
     word-break: break-all !important;
@@ -131,12 +140,13 @@
     font-size: 30rpx; 
     color: #333; 
     margin-bottom: 20rpx; 
-    font-weight: 500;
+    font-weight: 500; 
   }
   .desc-card .content { 
     font-size: 28rpx; 
     color: #666; 
     line-height: 1.7; 
+    word-wrap: break-word;
   }
   
   .placeholder { 
@@ -171,6 +181,10 @@
     font-size: 28rpx; 
     color: #fff; 
     border: none; 
+    margin: 0;
+    /* 防止 iOS 毛玻璃下按钮文字消失 */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
   }
   .btn.blue { 
     background: #2d8cf0; 

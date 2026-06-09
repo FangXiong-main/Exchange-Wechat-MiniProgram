@@ -20,7 +20,8 @@
         "pages/excWallet/excWallet",
         "pages/account/account",
         "pages/changeKey/changeKey",
-        "pages/logOff/logOff"
+        "pages/logOff/logOff",
+        "pages/selectedGoods/selectedGoods"
     ],
     "window": {
         "backgroundTextStyle": "light",

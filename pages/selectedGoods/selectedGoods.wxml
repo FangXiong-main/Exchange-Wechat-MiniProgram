@@ -1,0 +1,32 @@
+<view class="container glass-bg">
+  <!-- 页面标题：类型 / 搜索 -->
+  <view class="goods-title">
+    <text class="title-text">{{pageTitle}}</text>
+  </view>
+
+  <!-- 加载中 -->
+  <view wx:if="{{loading && goodsList.length === 0}}" style="text-align:center;padding:60rpx 0;color:#999;font-size:28rpx;">
+    加载中...
+  </view>
+
+  <!-- 商品列表 -->
+  <view class="goods-list" wx:else>
+    <view class="goods-item glass-card" wx:for="{{goodsList}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+      <image class="goods-img" src="{{item.mainImg || 'https://picsum.photos/id/10/400/400'}}" mode="aspectFill"></image>
+      <view class="goods-name">{{item.name}}</view>
+      <view class="goods-price">¥{{item.price}}</view>
+      <view class="goods-footer">
+        <view class="user-info">
+          <image class="avatar" src="{{item.avatarUrl || 'https://picsum.photos/id/100/100/100'}}" mode="aspectFill"></image>
+          <text class="username">{{item.username}}</text>
+        </view>
+        <text class="time">{{item.timeStr}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:if="{{goodsList.length === 0 && !loading}}" style="text-align:center;padding:120rpx 0;color:#999;font-size:28rpx;">
+    {{emptyTip}}
+  </view>
+</view>

@@ -61,8 +61,6 @@ Page({
       const filterIndex = this.data.filterIndex;
       const type = filterIndex; 
 
-      console.log("当前选择 index:", filterIndex, " 发送 type:", type);
-
       const res = await getPostPageApi({
         pageNum: this.data.pageNum,
         pageSize: this.data.pageSize,

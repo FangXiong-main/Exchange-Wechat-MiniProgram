@@ -45,3 +45,6 @@ export const getGoodsDetailApi = (id) =>
 // 修改商品
 export const updateGoodsApi = (param) =>
   request.post('/goods/updateGoods', param)
+
+//查询商品列表
+export const getGoodsListByTypeOrSearchApi = (params) => request.post('/goods/getGoodsListByTypeOrSearchApi',params)
