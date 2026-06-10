@@ -21,7 +21,8 @@
         "pages/account/account",
         "pages/changeKey/changeKey",
         "pages/logOff/logOff",
-        "pages/selectedGoods/selectedGoods"
+        "pages/selectedGoods/selectedGoods",
+        "pages/searchedPost/searchedPost"
     ],
     "window": {
         "backgroundTextStyle": "light",

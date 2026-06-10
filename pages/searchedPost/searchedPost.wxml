@@ -1,0 +1,49 @@
+<view>
+  <view class="container glass-bg">
+
+    <!-- 标题 -->
+    <view class="search-top-title">
+      <text class="title">{{pageTitle}}</text>
+    </view>
+
+    <!-- 帖子列表 -->
+    <view class="circle-list">
+      <view class="circle-item glass-card" wx:for="{{postList}}" wx:key="id" bindtap="goDetail" data-item="{{item}}">
+        <view class="circle-user">
+          <image class="avatar" src="{{item.avatarUrl}}" mode="aspectFill"></image>
+          <view class="user-info">
+            <text class="nickname">{{item.username}}</text>
+            <text class="time">{{item.createTime}}</text>
+          </view>
+        </view>
+
+        <view class="circle-content">{{item.content}}</view>
+
+        <image wx:if="{{item.img}}" class="circle-img" src="{{item.img}}" mode="aspectFill"></image>
+
+        <!-- 底部栏：浏览、评论 + 右下角类型标签 -->
+        <view class="circle-action">
+          <view class="action-left">
+            <text>浏览：{{item.viewCount}} 次</text>
+            <text>评论：{{item.commentCount}} 条</text>
+          </view>
+          <view class="type-tag" wx:if="{{item.typeName}}">
+            {{item.typeName}}
+          </view>
+        </view>
+      </view>
+
+      <view wx:if="{{postList.length === 0 && !loading}}" style="text-align:center;padding:120rpx 0;color:#999;font-size:28rpx;">
+        {{emptyTip}}
+      </view>
+    </view>
+  </view>
+
+  <!-- ✅ 全屏液态玻璃加载动画 -->
+  <view wx:if="{{loading}}" class="liquid-loading-mask">
+    <view class="loading-box">
+      <view class="loader"></view>
+      <text class="loading-text">正在搜索...</text>
+    </view>
+  </view>
+</view>

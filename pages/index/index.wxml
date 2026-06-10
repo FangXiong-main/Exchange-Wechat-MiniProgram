@@ -8,27 +8,12 @@
     </view>
   </view>
 
-  <!-- 轮播图：固定3张 -->
+  <!-- 轮播图：从 JS 动态渲染 -->
   <swiper class="banner-swiper" indicator-dots="{{true}}" autoplay="{{true}}" interval="3000" duration="500">
-    <swiper-item>
+    <swiper-item wx:for="{{bannerList}}" wx:key="index">
       <view class="banner-item">
         <view class="banner-content glass-card">
-          <!-- 🔥 轮播图加 mode -->
-          <image class="banner-img" src="https://picsum.photos/id/1/800/320" mode="aspectFill"></image>
-        </view>
-      </view>
-    </swiper-item>
-    <swiper-item>
-      <view class="banner-item">
-        <view class="banner-content glass-card">
-          <image class="banner-img" src="https://picsum.photos/id/10/800/320" mode="aspectFill"></image>
-        </view>
-      </view>
-    </swiper-item>
-    <swiper-item>
-      <view class="banner-item">
-        <view class="banner-content glass-card">
-          <image class="banner-img" src="https://picsum.photos/id/100/800/320" mode="aspectFill"></image>
+          <image class="banner-img" src="{{item.url}}" mode="aspectFill"></image>
         </view>
       </view>
     </swiper-item>

@@ -10,7 +10,29 @@ Page({
     pageSize: 10,
     noMore: false,
     isFirstLoaded: false,
-    fromDetail: false
+    fromDetail: false,
+
+    bannerList: [
+      { url: '/ExchangeUploads/miniProgram-home-pictures/1.jpg' },
+      { url: '/ExchangeUploads/miniProgram-home-pictures/2.jpg' },
+      { url: '/ExchangeUploads/miniProgram-home-pictures/3.jpg' }
+    ]
+  },
+
+  onLoad() {
+    this.processBannerImages()
+  },
+
+  processBannerImages() {
+    const { bannerList } = this.data
+    const processed = bannerList.map(item => {
+      let url = item.url
+      if (url && !url.startsWith('http')) {
+        url = request.baseURL + url
+      }
+      return { url }
+    })
+    this.setData({ bannerList: processed })
   },
 
   onShow() {
@@ -44,9 +66,6 @@ Page({
     this.setData({ searchKey: e.detail.value })
   },
 
-  // ======================
-  // 🔥 搜索：type 强制传 null
-  // ======================
   doSearch() {
     const key = this.data.searchKey.trim()
     if (!key) {
@@ -123,9 +142,6 @@ Page({
     this.getGoodsList(false)
   },
 
-  // ======================
-  // 🔥 分类点击：只传 type
-  // ======================
   goType(e) {
     const type = e.currentTarget.dataset.type
     wx.navigateTo({

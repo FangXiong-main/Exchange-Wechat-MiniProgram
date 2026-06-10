@@ -1,0 +1,144 @@
+/* ====================== 全局玻璃风格 ====================== */
+.glass-bg {
+    background: linear-gradient(135deg, #e6f7ff 0%, #f0f9ff 100%);
+    min-height: 100vh;
+  }
+  
+  .glass-card {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(25px);
+    border-radius: 20rpx;
+  }
+  
+  /* ====================== 标题 ====================== */
+  .search-top-title {
+    padding: 20rpx 10rpx 20rpx;
+  }
+  .title {
+    font-size: 32rpx;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* ====================== 列表 ====================== */
+  .container {
+    padding: 20rpx;
+    box-sizing: border-box;
+  }
+  
+  .circle-list {
+    margin-top: 10rpx;
+    padding-bottom: 100rpx;
+  }
+  
+  .circle-item {
+    padding: 30rpx;
+    margin-bottom: 20rpx;
+  }
+  
+  .circle-user {
+    display: flex;
+    align-items: center;
+  }
+  
+  .avatar {
+    width: 70rpx;
+    height: 70rpx;
+    border-radius: 50%;
+    margin-right: 20rpx;
+  }
+  
+  .user-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .nickname {
+    font-size: 28rpx;
+    font-weight: 500;
+  }
+  
+  .time {
+    font-size: 22rpx;
+    color: #999;
+  }
+  
+  .circle-content {
+    font-size: 28rpx;
+    line-height: 1.5;
+    margin: 10rpx 0;
+  }
+  
+  .circle-img {
+    width: 100%;
+    border-radius: 16rpx;
+  }
+  
+  /* 底部栏 */
+  .circle-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 24rpx;
+    color: #666;
+    margin-top: 20rpx;
+  }
+  
+  .action-left {
+    display: flex;
+    gap: 40rpx;
+  }
+  
+  /* 帖子类型标签 */
+  .type-tag {
+    background: #e6f7ff;
+    color: #2d8cf0;
+    padding: 6rpx 16rpx;
+    border-radius: 30rpx;
+    font-size: 22rpx;
+  }
+  
+  /* ====================== ✅ 全屏液态玻璃加载 ====================== */
+  .liquid-loading-mask {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    /* 液态玻璃背景 */
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  
+  .loading-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20rpx;
+  }
+  
+  /* 液态旋转动画 */
+  .loader {
+    width: 60rpx;
+    height: 60rpx;
+    border: 3rpx solid rgba(255,255,255,0.3);
+    border-top: 3rpx solid #4080ff;
+    border-radius: 50%;
+    animation: rotate 1s linear infinite;
+  }
+  
+  @keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .loading-text {
+    color: #333;
+    font-size: 28rpx;
+  }

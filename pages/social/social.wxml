@@ -1,14 +1,21 @@
-<!-- 页面根：无任何限制 -->
 <view>
 
 <!-- 内容滚动区域 -->
 <view class="container glass-bg">
 
-  <view class="header-filter glass-float">
+  <!-- 修复：给搜索栏加 z-index 确保能点到 -->
+  <view class="header-filter glass-float" style="position: sticky; top: 0; z-index: 9999;">
     <view class="search-box glass-input">
       <icon type="search" size="14" color="#999" class="search-icon"></icon>
-      <input placeholder="搜索帖子" class="search-input" placeholder-class="search-placeholder" bindinput="onSearchInput" value="{{searchKey}}" />
-      <view class="search-btn glass-btn" bindtap="goSearchPage">搜索</view>
+      <input 
+        placeholder="搜索帖子" 
+        class="search-input" 
+        placeholder-class="search-placeholder" 
+        bindinput="onSearchInput" 
+        value="{{searchKey}}" 
+      />
+      <!-- 修复：按钮明确可点击 -->
+      <view class="search-btn glass-btn" bindtap="goSearchPage" style="z-index: 999;">搜索</view>
     </view>
 
     <view class="filter-wrap glass-card" bindtap="showFilter">
@@ -44,13 +51,15 @@
 
 <!-- 悬浮按钮 -->
 <view class="publish-btn" bindtap="goPublish">
-  <text class="plus">+</text>
+  <image src="/images/newPost.svg"></image>
 </view>
 
 </view>
 
-<view wx:if="{{loading}}" class="loading-mask">
-<view class="loading-box">
-  <text>加载中...</text>
-</view>
+<!-- 🔥 统一 全屏液态玻璃加载 -->
+<view wx:if="{{loading}}" class="liquid-loading-mask">
+  <view class="loading-box">
+    <view class="loader"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
 </view>

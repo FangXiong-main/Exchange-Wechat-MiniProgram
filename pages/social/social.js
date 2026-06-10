@@ -153,7 +153,7 @@ Page({
   goSearchPage() {
     const key = this.data.searchKey.trim();
     wx.navigateTo({
-      url: `/pages/search/search?key=${key}`
+      url: `/pages/searchedPost/searchedPost?key=${key}`
     });
   },
 
