@@ -1,8 +1,10 @@
+
 <view>
   <view class="container glass-bg">
 
-    <!-- 标题 -->
+    <!-- 标题区 -->
     <view class="search-top-title">
+      <view class="title-decor"></view>
       <text class="title">{{pageTitle}}</text>
     </view>
 
@@ -21,11 +23,11 @@
 
         <image wx:if="{{item.img}}" class="circle-img" src="{{item.img}}" mode="aspectFill"></image>
 
-        <!-- 底部栏：浏览、评论 + 右下角类型标签 -->
+        <!-- 底部栏 -->
         <view class="circle-action">
           <view class="action-left">
-            <text>浏览：{{item.viewCount}} 次</text>
-            <text>评论：{{item.commentCount}} 条</text>
+            <text>👀 浏览 {{item.viewCount}} 次</text>
+            <text>💬 评论 {{item.commentCount}} 条</text>
           </view>
           <view class="type-tag" wx:if="{{item.typeName}}">
             {{item.typeName}}
@@ -33,16 +35,21 @@
         </view>
       </view>
 
-      <view wx:if="{{postList.length === 0 && !loading}}" style="text-align:center;padding:120rpx 0;color:#999;font-size:28rpx;">
-        {{emptyTip}}
+      <view wx:if="{{postList.length === 0 && !loading}}" class="empty-state">
+        <text class="empty-icon">🔍</text>
+        <text>{{emptyTip}}</text>
       </view>
     </view>
   </view>
 
-  <!-- ✅ 全屏液态玻璃加载动画 -->
+  <!-- 液态玻璃加载遮罩 -->
   <view wx:if="{{loading}}" class="liquid-loading-mask">
     <view class="loading-box">
-      <view class="loader"></view>
+      <view class="loader">
+        <view class="loader-dot dot1"></view>
+        <view class="loader-dot dot2"></view>
+        <view class="loader-dot dot3"></view>
+      </view>
       <text class="loading-text">正在搜索...</text>
     </view>
   </view>

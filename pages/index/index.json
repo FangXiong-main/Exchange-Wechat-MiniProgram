@@ -1,5 +1,7 @@
 {
-    "navigationBarTitleText": "Exchange！",
-    "enablePullDownRefresh": true,
-    "onReachBottomDistance": 50
-  }
+  "navigationBarTitleText": "✨ Exchange！✨",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 50,
+  "navigationBarBackgroundColor": "#4A7BF7",
+  "navigationBarTextStyle": "white"
+}

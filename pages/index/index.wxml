@@ -1,78 +1,94 @@
 <view class="container glass-bg">
-  <!-- 顶部固定：搜索框 + 搜索按钮 -->
+  <!-- 顶部搜索栏（添加渐变遮罩与阴影） -->
   <view class="header-search glass-float">
     <view class="search-wrapper glass-input">
-      <icon type="search" size="28" color="#999" class="search-icon"></icon>
+      <view class="search-icon-wrap">
+        <text class="icon-search">🔍</text>
+      </view>
       <input placeholder="搜索商品" class="search-input" bindconfirm="doSearch" bindinput="onSearchInput" value="{{searchKey}}"/>
-      <view class="search-btn glass-btn" bindtap="doSearch">搜索</view>
+      <view class="search-btn glass-btn" bindtap="doSearch">
+        <text class="btn-text">搜索</text>
+      </view>
     </view>
   </view>
 
-  <!-- 轮播图：从 JS 动态渲染 -->
-  <swiper class="banner-swiper" indicator-dots="{{true}}" autoplay="{{true}}" interval="3000" duration="500">
+  <!-- 轮播图（保持原有逻辑，优化指示器样式） -->
+  <swiper class="banner-swiper" indicator-dots="{{true}}" indicator-color="rgba(255,255,255,0.4)" indicator-active-color="#fff" autoplay="{{true}}" interval="3000" duration="500" circular="{{true}}">
     <swiper-item wx:for="{{bannerList}}" wx:key="index">
       <view class="banner-item">
         <view class="banner-content glass-card">
           <image class="banner-img" src="{{item.url}}" mode="aspectFill"></image>
+          <!-- 渐变遮罩让文字更清晰（预留） -->
+          <view class="banner-mask"></view>
         </view>
       </view>
     </swiper-item>
   </swiper>
 
-  <!-- 5个商品分类：书籍 数码 服饰 电器 其他 → 完全不动！ -->
+  <!-- 分类区（强化图标背景渐变与悬浮感） -->
   <view class="category-list">
     <view class="category-item" bindtap="goType" data-type="1">
-      <view class="category-icon bg-blue glass-icon">
+      <view class="category-icon cat-books">
         <image src="/images/home-select/book.svg"></image>
       </view>
       <text class="category-name">书籍</text>
     </view>
     <view class="category-item" bindtap="goType" data-type="2">
-      <view class="category-icon bg-orange glass-icon">
+      <view class="category-icon cat-digital">
         <image src="/images/home-select/digit.svg"></image>
       </view>
       <text class="category-name">数码</text>
     </view>
     <view class="category-item" bindtap="goType" data-type="3">
-      <view class="category-icon bg-lightblue glass-icon">
+      <view class="category-icon cat-clothes">
         <image src="/images/home-select/clothes.svg"></image>
       </view>
       <text class="category-name">服饰</text>
     </view>
     <view class="category-item" bindtap="goType" data-type="4">
-      <view class="category-icon bg-yellow glass-icon">
+      <view class="category-icon cat-electric">
         <image src="/images/home-select/electric.svg"></image>
       </view>
       <text class="category-name">电器</text>
     </view>
     <view class="category-item" bindtap="goType" data-type="5">
-      <view class="category-icon bg-purple glass-icon">
+      <view class="category-icon cat-others">
         <image src="/images/home-select/others.svg"></image>
       </view>
       <text class="category-name">其他</text>
     </view>
   </view>
 
-  <!-- 最新商品 -->
+  <!-- 最新商品标题（加入装饰条） -->
   <view class="goods-title">
+    <view class="title-deco"></view>
     <text class="title-text">今日上架商品</text>
   </view>
 
-  <!-- 加载中 -->
-  <view wx:if="{{loading && goodsList.length === 0}}" style="text-align:center;padding:60rpx 0;color:#999;font-size:28rpx;">
-  加载中...
+  <!-- 加载状态（添加液态光效） -->
+  <view wx:if="{{loading && goodsList.length === 0}}" class="loading-state">
+    <view class="dot-wave">
+      <view class="dot"></view>
+      <view class="dot"></view>
+      <view class="dot"></view>
+    </view>
+    <text class="loading-text">正在搜罗好物...</text>
   </view>
 
-  <!-- 商品列表 -->
+  <!-- 商品列表（保持原有布局，卡片微调） -->
   <view class="goods-list" wx:else>
     <view class="goods-item glass-card" wx:for="{{goodsList}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
-      <!-- 🔥 商品图片加 mode -->
-      <image class="goods-img" src="{{item.mainImg || 'https://picsum.photos/id/10/400/400'}}" mode="aspectFill"></image>
+      <view class="img-wrapper">
+        <image class="goods-img" src="{{item.mainImg || 'https://picsum.photos/id/10/400/400'}}" mode="aspectFill" lazy-load="true"></image>
+        <!-- 图片上的类型标签（可选） -->
+        <view class="img-tag" wx:if="{{item.typeName}}">{{item.typeName}}</view>
+      </view>
       <view class="goods-name">{{item.name}}</view>
-      <view class="goods-price">¥{{item.price}}</view>
+      <view class="goods-price">
+        <text class="price-symbol">¥</text>{{item.price}}
+      </view>
       <view class="goods-footer">
         <view class="user-info">
-          <!-- 🔥 头像加 mode -->
           <image class="avatar" src="{{item.avatarUrl || 'https://picsum.photos/id/100/100/100'}}" mode="aspectFill"></image>
           <text class="username">{{item.username}}</text>
         </view>
@@ -81,8 +97,9 @@
     </view>
   </view>
 
-  <!-- 空状态 -->
-  <view wx:if="{{goodsList.length === 0 && !loading}}" style="text-align:center;padding:120rpx 0;color:#999;font-size:28rpx;">
-  今日暂无上架商品喔
+  <!-- 空状态（增加插画氛围） -->
+  <view wx:if="{{goodsList.length === 0 && !loading}}" class="empty-state">
+    <text class="empty-icon">📦</text>
+    <text class="empty-desc">今日暂无上架商品喔</text>
   </view>
 </view>
