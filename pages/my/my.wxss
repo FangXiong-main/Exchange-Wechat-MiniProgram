@@ -1,159 +1,189 @@
 /* 全屏加载 */
 .loading-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(10px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
 }
 .loading-glass {
-    padding: 50rpx 80rpx;
-    border-radius: 20rpx;
-    background: rgba(255,255,255,0.25);
-    border: 1rpx solid rgba(255,255,255,0.3);
+  padding: 50rpx 80rpx;
+  border-radius: 20rpx;
+  background: rgba(255,255,255,0.25);
+  border: 1rpx solid rgba(255,255,255,0.3);
+  /* 增加轻微阴影，提升立体感 */
+  box-shadow: 0 4rpx 16rpx rgba(45, 140, 240, 0.12);
 }
 .loading-text {
-    font-size: 32rpx;
-    color: #2d8cf0;
-    font-weight: bold;
+  font-size: 32rpx;
+  color: #2d8cf0;
+  font-weight: bold;
 }
 
 /* 统一玻璃样式 */
 .glass-bg {
-    background: linear-gradient(135deg, #e6f7ff 0%, #f0f9ff 100%);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    min-height: 100vh;
+  background: linear-gradient(135deg, #e6f7ff 0%, #f0f9ff 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  min-height: 100vh;
 }
 .glass-card {
-    background: rgba(255, 255, 255, 0.55);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 8px 32px rgba(100, 120, 200, 0.1);
-    border-radius: 20rpx;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(100, 120, 200, 0.1);
+  border-radius: 20rpx;
+  /* 全局卡片点击按压动效 */
+  transition: all 0.2s ease;
+}
+.glass-card:active {
+  transform: scale(0.985);
+  box-shadow: 0 4rpx 16rpx rgba(100, 120, 200, 0.08);
 }
 .glass-btn {
-    background: rgba(102, 175, 239, 0.3);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: #2d8cf0 !important;
+  background: rgba(102, 175, 239, 0.3);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #2d8cf0 !important;
+  /* 按钮交互 */
+  transition: all 0.2s ease;
+}
+.glass-btn:active {
+  opacity: 0.8;
 }
 
 /* 布局 */
 .container {
-    padding: 30rpx;
-    box-sizing: border-box;
+  padding: 30rpx;
+  box-sizing: border-box;
 }
 .user-card {
-    display: flex;
-    align-items: center;
-    padding: 30rpx;
-    margin-bottom: 30rpx;
+  display: flex;
+  align-items: center;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
 }
-/* ✅ 头像：和你参考页完全一样，不变形 */
+/* 头像：保留原尺寸不变形，增加边框质感 */
 .avatar {
-  width: 120rpx;
-  height: 120rpx;
-  border-radius: 50%;
-  margin-right: 24rpx;
+width: 120rpx;
+height: 120rpx;
+border-radius: 50%;
+margin-right: 24rpx;
+border: 2rpx solid rgba(255, 255, 255, 0.6);
+box-shadow: 0 2rpx 12rpx rgba(45, 140, 240, 0.15);
 }
 .user-info {
-    flex: 1;
+  flex: 1;
 }
 .nickname {
-    font-size: 32rpx;
-    font-weight: bold;
-    line-height: 1.2;
+  font-size: 32rpx;
+  font-weight: bold;
+  line-height: 1.2;
+  color: #1f2937;
 }
 .edit-btn {
-    padding: 0 24rpx;
-    height: 56rpx;
-    line-height: 56rpx;
-    border-radius: 28rpx;
-    font-size: 24rpx;
-    white-space: nowrap;
+  padding: 0 24rpx;
+  height: 56rpx;
+  line-height: 56rpx;
+  border-radius: 28rpx;
+  font-size: 24rpx;
+  white-space: nowrap;
 }
 
 /* 审核中提示 */
 .audit-tip {
-    background: rgba(255, 193, 7, 0.1);
-    border: 1rpx solid rgba(255, 193, 7, 0.2);
-    color: #e6a700;
-    padding: 20rpx;
-    border-radius: 16rpx;
-    text-align: center;
-    margin-bottom: 30rpx;
-    font-size: 26rpx;
+  background: rgba(255, 193, 7, 0.1);
+  border: 1rpx solid rgba(255, 193, 7, 0.2);
+  color: #e6a700;
+  padding: 20rpx;
+  border-radius: 16rpx;
+  text-align: center;
+  margin-bottom: 30rpx;
+  font-size: 26rpx;
+  /* 轻微圆角阴影，柔和不突兀 */
+  box-shadow: 0 2rpx 8rpx rgba(255, 193, 7, 0.08);
 }
 
 .menu-box {
-    display: flex;
-    flex-direction: column;
-    gap: 20rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
 }
 .menu-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 30rpx;
-    font-size: 28rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx;
+  font-size: 28rpx;
+  color: #2c3e50;
 }
 .menu-left-wrap{
-  display: flex;
-  align-items: center;
+display: flex;
+align-items: center;
 }
 .arrow {
-    color: #999;
+  color: #999;
+  font-size: 30rpx;
 }
 .order-tip{
-  color: #f53f3f;
-  font-size:24rpx;
-  margin-left:20rpx;
-  font-weight:bold;
+color: #f53f3f;
+font-size:24rpx;
+margin-left:20rpx;
+font-weight:bold;
+/* 优化角标样式，更精致 */
+background: rgba(245, 63, 63, 0.1);
+padding: 4rpx 12rpx;
+border-radius: 30rpx;
 }
 .logout-box {
-    margin-top: 60rpx;
+  margin-top: 60rpx;
 }
 .logout-btn {
-    text-align: center;
-    padding: 24rpx;
-    border-radius: 20rpx;
-    font-size: 28rpx;
+  text-align: center;
+  padding: 24rpx;
+  border-radius: 20rpx;
+  font-size: 28rpx;
+  /* 退出按钮强化区分 */
+  color: #f53f3f !important;
+  background: rgba(245, 63, 63, 0.15);
 }
 .school-text {
-    display: block;
-    font-size: 24rpx;
-    color: #666;
-    margin-top: 8rpx;
-    font-weight: normal;
+  display: block;
+  font-size: 24rpx;
+  color: #666;
+  margin-top: 8rpx;
+  font-weight: normal;
 }
 
 .menu-icon {
-    font-size: 32rpx;
-    margin-right: 20rpx;
-    line-height: 1;
+  font-size: 32rpx;
+  margin-right: 20rpx;
+  line-height: 1;
 }
 
 image.menu-icon {
-  width: 40rpx;
-  height: 40rpx;
+width: 40rpx;
+height: 40rpx;
 }
 
 .school-row {
-    display: flex;
-    align-items: center;
-    margin-top: 8rpx;
-  }
-  
-  .school-icon {
-    width: 20px;
-    height: 20px;
-    margin-right: 6rpx;
-  }
+  display: flex;
+  align-items: center;
+  margin-top: 8rpx;
+}
+
+.school-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 6rpx;
+  /* 图标色调统一 */
+  opacity: 0.8;
+}
