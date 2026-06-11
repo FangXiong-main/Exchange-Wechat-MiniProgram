@@ -25,11 +25,11 @@
         "pages/searchedPost/searchedPost"
     ],
     "window": {
-        "backgroundTextStyle": "light",
-        "navigationBarBackgroundColor": "#4080ff",
-        "navigationBarTitleText": "Exchange！",
-        "navigationBarTextStyle": "white",
-        "backgroundColor": "#f5f5f5"
+      "navigationBarTitleText": "✨ Exchange！✨",
+      "enablePullDownRefresh": true,
+      "onReachBottomDistance": 50,
+      "navigationBarBackgroundColor": "#4A7BF7",
+      "navigationBarTextStyle": "white"
     },
     "tabBar": {
         "color": "#999",
